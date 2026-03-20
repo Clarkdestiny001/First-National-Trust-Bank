@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First National Trust Bank | Premier Online Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #e2e8f0; min-height: 100vh; background: linear-gradient(135deg, #020617 0%, #041a56 30%, #0f3a9b 60%, #020617 100%); background-attachment: fixed; }
+        .serif { font-family: 'Playfair Display', serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .secure-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, #047857, #10b981);
+            color: white;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-radius: 999px;
+            padding: 0.35rem 0.7rem;
+            box-shadow: 0 4px 14px rgba(4, 120, 87, 0.35);
+        }
+        .modal-highlight {
+            background: linear-gradient(120deg, #0ea5e9 0%, #3b82f6 55%, #8b5cf6 100%);
+            color: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -18px rgba(30, 58, 138, 0.5);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .smooth-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .slide-in {
+            animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .theme-neo {
+            animation: neoBackground 12s ease infinite;
+            background: linear-gradient(125deg, #020617 0%, #0c1f4d 35%, #102e7f 70%, #040a1f 100%);
+        }
+        @keyframes neoBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .theme-neo {
+            animation: neoBackground 12s ease infinite;
+            background: linear-gradient(125deg, #020617 0%, #0c1f4d 35%, #102e7f 70%, #040a1f 100%);
+            background-size: 200% 200%;
+            color: #e2e8f0;
+        }
+        .theme-neo .glass-effect, .theme-neo .bg-white {
+            background-size: 200% 200%;
+        }
+        @keyframes neoBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .credit-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.5);
+        }
+        .credit-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            animation: shimmer 4s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .receipt-paper {
+            background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+            box-shadow: 0 1px 1px rgba(0,0,0,0.11), 0 2px 2px rgba(0,0,0,0.11), 0 4px 4px rgba(0,0,0,0.11), 0 8px 8px rgba(0,0,0,0.11), 0 16px 16px rgba(0,0,0,0.11);
+            position: relative;
+        }
+        .receipt-paper::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: radial-gradient(circle, transparent 6px, #fafafa 6px);
+            background-size: 20px 20px;
+            background-position: -10px -10px;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(16, 185, 129, 0.08);
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            border: 4px solid #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-15deg);
+            opacity: 0;
+            animation: stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.3s;
+        }
+        @keyframes stampIn {
+            0% { opacity: 0; transform: rotate(-15deg) scale(2); }
+            100% { opacity: 0.9; transform: rotate(-15deg) scale(1); }
+        }
+        .stamp-text {
+            color: #10b981;
+            font-weight: 900;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.2;
+            border: 2px solid #10b981;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .bank-logo {
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+        .bank-logo:hover, .bank-logo.selected {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .amount-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+        .receipt-line {
+            border-bottom: 2px dashed #e5e7eb;
+            margin: 1rem 0;
+        }
+        .barcode {
+            height: 60px;
+            background: repeating-linear-gradient(90deg, #000 0px, #000 2px, transparent 2px, transparent 4px, #000 4px, #000 6px, transparent 6px, transparent 10px);
+            margin: 20px 0;
+        }
+        .toast {
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99999;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .modal-enter {
+            animation: modalEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalEnter {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .secure-badge {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .tab-active {
+            border-bottom: 3px solid #1e3a8a;
+            color: #1e3a8a;
+        }
+        .spending-category {
+            transition: all 0.3s ease;
+        }
+        .spending-category:hover {
+            transform: translateX(8px);
+        }
+        .progress-bar {
+            transition: width 1s ease-out;
+        }
+        .quick-action-btn {
+            transition: all 0.2s ease;
+        }
+        .quick-action-btn:active {
+            transform: scale(0.95);
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .count-up {
+            animation: countUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body class="theme-neo text-white antialiased" style="background: linear-gradient(135deg, #020617 0%, #041a56 30%, #0f3a9b 60%, #020617 100%); background-attachment: fixed;">
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-3"></div>
+    <div id="loginScreenOverlay" class="hidden fixed inset-0 z-[9998] bg-slate-900/35 backdrop-blur-sm"></div>
+
+    <!-- Security Header -->
+    <div class="bg-slate-900 text-white text-xs py-2.5 px-4 text-center relative overflow-hidden">
+        <div class="flex items-center justify-center gap-3">
+            <span class="w-2 h-2 bg-green-400 rounded-full pulse-ring"></span>
+            <span class="font-medium tracking-wide">SECURE CONNECTION • 256-BIT TLS ENCRYPTION ACTIVE</span>
+            <span class="hidden md:inline text-slate-400">|</span>
+            <span class="hidden md:inline text-slate-400">FDIC INSURED #00125678</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 glass-effect border-b border-gray-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4 cursor-pointer group" onclick="showDashboard()">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl smooth-transition">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900 text-xl tracking-tight">First National</div>
+                        <div class="text-xs text-slate-500 font-semibold tracking-widest uppercase">Trust Bank</div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#" onclick="showServiceSection('personal')" id="navPersonal" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Personal</a>
+                    <a href="#" onclick="showServiceSection('business')" id="navBusiness" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Business</a>
+                    <a href="#" onclick="showServiceSection('wealth')" id="navWealth" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Wealth</a>
+                    <a href="#" onclick="showServiceSection('support')" id="navSupport" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Support</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button class="hidden md:flex items-center gap-2 text-slate-600 hover:text-blue-900 smooth-transition px-4 py-2 rounded-full hover:bg-slate-100">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="relative p-2 text-slate-600 hover:text-blue-900 smooth-transition rounded-full hover:bg-slate-100" onclick="showNotifications()">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationBadge" class="absolute top-0 right-0 min-w-[16px] h-4 px-1 text-[10px] leading-4 text-white bg-red-500 rounded-full border-2 border-white text-center hidden">0</span>
+                    </button>
+                    <button class="hidden md:flex items-center gap-2 text-slate-600 hover:text-blue-900 smooth-transition px-4 py-2 rounded-full hover:bg-slate-100" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                    <button id="authButton" onclick="toggleLogin()" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-slate-800 smooth-transition shadow-lg hover:shadow-xl text-sm">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="hidden fixed inset-0 z-[9998] bg-slate-900/70 backdrop-blur-sm flex items-start md:items-center justify-center p-2 md:p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-[95vw] md:max-w-2xl p-4 md:p-6 relative max-h-[95vh] overflow-y-auto">
+            <button onclick="closeSettings()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 flex items-center justify-center text-slate-500 smooth-transition"><i class="fas fa-times"></i></button>
+            <div class="mb-4">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <h3 class="mt-3 text-2xl font-bold text-slate-900 dark:text-white">Account Settings</h3>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Configure your profile, security, and access settings.</p>
+                    </div>
+                    <span class="text-[11px] px-2 py-1 bg-slate-100 rounded-full text-slate-600">Mobile friendly</span>
+                </div>
+                <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">Swipe up to scroll through settings on phone.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button id="settingsTabAccount" onclick="showSettingsTab('account')" class="settings-tab-btn bg-blue-600 text-white rounded-xl px-3 py-2 font-semibold">Account</button>
+                <button id="settingsTabSecurity" onclick="showSettingsTab('security')" class="settings-tab-btn bg-slate-100 text-slate-700 rounded-xl px-3 py-2 font-semibold">Security</button>
+            </div>
+
+            <div id="settingsPreview" class="mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                    <button onclick="openFastTransfers()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Fast transfers</p>
+                        <p class="text-slate-100/90">Move funds with one-touch bank transfers.</p>
+                    </button>
+                    <button onclick="openCardControls()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-slate-800 via-slate-700 to-indigo-700 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Card controls</p>
+                        <p class="text-slate-100/90">Freeze/unfreeze cards instantly.</p>
+                    </button>
+                    <button onclick="openSecurityAlerts()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-emerald-600 via-cyan-600 to-sky-600 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Security alerts</p>
+                        <p class="text-slate-100/90">Real-time notifications for sign-ins.</p>
+                    </button>
+                </div>
+            </div>
+
+            <div id="settingsAccount" class="settings-panel">
+                <form onsubmit="saveAccountSettings(event)" class="space-y-3">
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Full Name</label>
+                        <input id="settingsName" type="text" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Alex Morgan" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Email</label>
+                        <input id="settingsEmail" type="email" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">New password</label>
+                        <input id="settingsPassword" type="password" minlength="6" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="At least 6 chars">
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Confirm password</label>
+                        <input id="settingsPasswordConfirm" type="password" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Confirm new password">
+                    </div>
+                    <button class="w-full px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700" type="submit">Save Account</button>
+                </form>
+            </div>
+
+            <div id="settingsSecurity" class="settings-panel hidden">
+                <div class="rounded-3xl border border-blue-200/30 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-4 text-white shadow-2xl">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-blue-200">Security Hub</p>
+                            <h4 class="mt-1 text-lg font-bold">Protect your account</h4>
+                            <p class="text-sm text-blue-100/90 mt-1">Control authentication, devices, and alerts in one place.</p>
+                        </div>
+                        <span class="px-2 py-1 rounded-full bg-green-500/20 text-green-200 text-[11px] font-semibold">High Trust</span>
+                    </div>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">2FA</p>
+                            <p class="mt-1 text-sm font-semibold">Status: <span id="twoFactorStatus">Enabled</span></p>
+                            <button onclick="toggleTwoFactor()" class="mt-2 w-full py-2 rounded-xl bg-indigo-500/90 hover:bg-indigo-400 text-white text-xs font-semibold">Toggle 2FA</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Cards</p>
+                            <p class="mt-1 text-sm font-semibold">Card freeze state: <span id="lockCardButtonLabel">Active</span></p>
+                            <button onclick="lockOrUnlockCard()" class="mt-2 w-full py-2 rounded-xl bg-red-500/90 hover:bg-red-400 text-white text-xs font-semibold">Freeze/Unfreeze Card</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3 md:col-span-1">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Devices</p>
+                            <p class="mt-1 text-sm font-semibold">Trusted devices: <span id="recognizedDeviceCount">0</span></p>
+                            <button onclick="viewTrustedDevices()" class="mt-2 w-full py-2 rounded-xl bg-slate-100 text-slate-900 text-xs font-semibold">View Trusted Devices</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3 md:col-span-1">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Alerts</p>
+                            <div class="mt-1 text-sm text-blue-100">
+                                <p><span id="emailAlertBadge" class="font-semibold">On</span> Email</p>
+                                <p><span id="smsAlertBadge" class="font-semibold">On</span> SMS</p>
+                                <p><span id="pushAlertBadge" class="font-semibold">On</span> Push</p>
+                            </div>
+                            <div class="mt-2 grid grid-cols-1 gap-2">
+                                <button onclick="toggleEmailAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle Email Alerts</button>
+                                <button onclick="toggleSmsAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle SMS Alerts</button>
+                                <button onclick="togglePushAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle Push Alerts</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-white/20 pt-3 text-xs text-blue-100">Updates are saved instantly and encrypted in your account.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+            <button onclick="toggleLogin()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8 pt-4">
+                <div class="flex justify-center mb-4 gap-2">
+                    <span class="secure-pill"><i class="fas fa-shield-alt"></i> 2FA Enabled</span>
+                    <span class="secure-pill"><i class="fas fa-lock"></i> 256-bit SSL</span>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                    <i class="fas fa-user-lock text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Secure Login</h2>
+                <p class="text-slate-500">Protected banking with real-time authentication</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-5" novalidate>
+                <div class="space-y-1">
+                    <label class="block text-sm font-semibold text-slate-700 uppercase tracking-wider">User ID</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="userId" class="w-full pl-12 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none smooth-transition font-medium text-slate-900" placeholder="Enter User ID" required>
+                    </div>
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="block text-sm font-semibold text-slate-700 uppercase tracking-wider">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="password" id="password" minlength="6" class="w-full pl-12 pr-12 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none smooth-transition font-medium text-slate-900" placeholder="Enter Password" required>
+                        <button type="button" id="togglePassword" onclick="togglePasswordVisibility('password', 'togglePassword')" class="absolute right-3 top-3 text-slate-400 hover:text-slate-700"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Use 8+ characters with at least one number and one letter.</p>
+                </div>
+
+    
+
+                <div class="text-left text-xs text-green-700 font-semibold" id="loginSecurityBadge">
+                    <i class="fas fa-lock"></i> Secure login (2FA available)
+                </div>
+                <p id="loginError" class="text-xs text-red-600 font-medium hidden"></p>
+
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300">
+                        <span class="text-slate-600 font-medium">Remember me</span>
+                    </label>
+                    <a href="#" class="text-blue-900 font-bold hover:underline">Forgot Password?</a>
+                </div>
+
+                <button type="submit" id="loginSubmitBtn" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-fingerprint"></i>
+                    Sign In Securely
+                </button>
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-slate-200 text-center">
+                <p class="text-sm text-slate-600 mb-4">
+                    New to online banking? <a href="#" class="text-blue-900 font-bold hover:underline" onclick="openEnrollModal(); return false;">Enroll now</a>
+                </p>
+                <div class="flex items-center justify-center gap-3 text-xs text-slate-500 bg-slate-50 py-3 rounded-lg">
+                    <i class="fas fa-lock text-green-600"></i>
+                    <span class="font-semibold">Secured by 256-bit SSL Encryption</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enroll Modal -->
+    <div id="enrollModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+            <button onclick="closeEnrollModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-6 pt-2">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-user-plus text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900">Enroll in Online Banking</h3>
+                <p class="text-slate-500 text-sm">Create your secure banking profile in under 2 minutes.</p>
+            </div>
+            <form onsubmit="handleEnroll(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Full Name</label>
+                    <input id="enrollName" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Jane Doe" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Email</label>
+                    <input id="enrollEmail" type="email" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="jane@example.com" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Create User ID</label>
+                    <input id="enrollUserId" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="jane.doe" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Create Password</label>
+                    <div class="relative">
+                        <input id="enrollPassword" type="password" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Min 6 chars" minlength="6" required>
+                        <button type="button" onclick="togglePasswordVisibility('enrollPassword', 'enrollTogglePassword')" id="enrollTogglePassword" class="absolute right-2 top-2 text-slate-400 hover:text-slate-700"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <p id="enrollError" class="text-xs text-red-600 hidden"></p>
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-3 rounded-xl font-bold">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Money Modal -->
+    <div id="addMoneyModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative">
+            <button onclick="closeAddMoneyModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-plus-circle text-green-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Add Funds</h2>
+                <p class="text-slate-500">Deposit money into your account</p>
+            </div>
+
+            <form onsubmit="handleAddMoney(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Select Account</label>
+                    <select id="depositAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="depositAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">From</label>
+                    <select class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition text-slate-700">
+                        <option>🏦 External Bank Account</option>
+                        <option>💸 Wire Transfer</option>
+                        <option>📱 Mobile Check Deposit</option>
+                        <option>💵 Cash Deposit</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button type="button" onclick="quickAdd(1000000)" class="py-3 px-4 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold text-slate-700 smooth-transition text-sm">
+                        +$1M
+                    </button>
+                    <button type="button" onclick="quickAdd(10000000)" class="py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg smooth-transition text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-bolt"></i>
+                        +$10M
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02]">
+                    Confirm Deposit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-2 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-5 modal-enter relative my-4 max-h-[85vh] overflow-y-auto">
+            <button onclick="closeTransferModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exchange-alt text-blue-900 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Transfer Funds</h2>
+                <p class="text-slate-500">Move money between accounts or external banks</p>
+            </div>
+
+            <form onsubmit="handleTransfer(event)" class="space-y-6">
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200">
+                    <label class="block text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wider">From Account</label>
+                    <select id="transferFrom" onchange="updateTransferOptions()" class="w-full p-3 bg-white border border-slate-300 rounded-xl focus:border-blue-500 outline-none font-semibold text-slate-900">
+                        <option value="checking">💳 Checking •••• 4521 ($<span id="fromCheckingBalance">12,450.00</span>)</option>
+                        <option value="savings">🏦 Savings •••• 8823 ($<span id="fromSavingsBalance">34,834.52</span>)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-center -my-2 relative z-10">
+                    <div class="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white shadow-lg">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200">
+                    <label class="block text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wider">To Account</label>
+                    <select id="transferTo" onchange="updateTransferOptions()" class="w-full p-3 bg-white border border-slate-300 rounded-xl focus:border-blue-500 outline-none font-semibold text-slate-900 mb-4">
+                        <optgroup label="Your Accounts">
+                            <option value="savings">🏦 Savings •••• 8823</option>
+                            <option value="checking">💳 Checking •••• 4521</option>
+                        </optgroup>
+                        <optgroup label="External Banks">
+                            <option value="chase">🏛️ Chase Bank</option>
+                            <option value="bofa">🏛️ Bank of America</option>
+                            <option value="wells">🏛️ Wells Fargo</option>
+                            <option value="citi">🏛️ Citibank</option>
+                            <option value="usbank">🏛️ U.S. Bank</option>
+                            <option value="pnc">🏛️ PNC Bank</option>
+                            <option value="capitalone">🏛️ Capital One</option>
+                            <option value="td">🏛️ TD Bank</option>
+                            <option value="schwab">🏛️ Charles Schwab</option>
+                            <option value="other">🏛️ Other Bank</option>
+                        </optgroup>
+                    </select>
+
+                    <div id="externalBankDetails" class="hidden space-y-4 pt-4 border-t border-slate-200">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Holder Name</label>
+                                <input type="text" id="externalHolderName" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none" placeholder="Full Name">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Number</label>
+                                <input type="text" id="externalAccountNumber" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none font-mono" placeholder="•••• •••• •••• ••••">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Routing Number</label>
+                                <input type="text" id="externalRoutingNumber" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none font-mono" placeholder="•••••••••">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Type</label>
+                                <select id="externalAccountType" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none">
+                                    <option value="checking">Checking</option>
+                                    <option value="savings">Savings</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-2xl font-bold">$</span>
+                        <input type="number" id="transferAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-3xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-2 font-medium">Available: <span class="text-slate-900 font-bold" id="availableBalance">$12,450.00</span></p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Memo (Optional)</label>
+                    <input type="text" id="transferMemo" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none font-medium" placeholder="What's this transfer for?">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-3">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Transfer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pay Bills Modal -->
+    <div id="payBillsModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative my-8">
+            <button onclick="closePayBillsModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-file-invoice-dollar text-purple-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Pay Bills</h2>
+                <p class="text-slate-500">Schedule payments to your payees</p>
+            </div>
+
+            <form onsubmit="handlePayBill(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Payee</label>
+                    <select id="billPayee" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="electric">⚡ Electric Company</option>
+                        <option value="internet">🌐 Internet Provider</option>
+                        <option value="water">💧 Water Utility</option>
+                        <option value="rent">🏠 Rent/Mortgage</option>
+                        <option value="insurance">🛡️ Insurance</option>
+                        <option value="credit">💳 Credit Card</option>
+                        <option value="custom">➕ Add New Payee</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">From Account</label>
+                    <select id="billFromAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="billAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Payment Date</label>
+                    <input type="date" id="billDate" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none font-semibold text-slate-700" required>
+                </div>
+
+                <div class="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                    <i class="fas fa-info-circle text-amber-600 text-xl"></i>
+                    <p class="text-sm text-amber-800">Payments scheduled for today will be processed immediately.</p>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    Schedule Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Check Deposit Modal -->
+    <div id="mobileDepositModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative">
+            <button onclick="closeMobileDepositModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-camera text-blue-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Mobile Check Deposit</h2>
+                <p class="text-slate-500">Take photos of your check to deposit</p>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Deposit To</label>
+                    <select id="mobileDepositAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 smooth-transition cursor-pointer" onclick="simulateCheckCapture('front')">
+                        <div id="checkFrontPreview" class="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center mb-3">
+                            <i class="fas fa-plus text-slate-400 text-3xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Front of Check</p>
+                        <p class="text-xs text-slate-500 mt-1">Tap to capture</p>
+                    </div>
+                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 smooth-transition cursor-pointer" onclick="simulateCheckCapture('back')">
+                        <div id="checkBackPreview" class="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center mb-3">
+                            <i class="fas fa-plus text-slate-400 text-3xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Back of Check</p>
+                        <p class="text-xs text-slate-500 mt-1">Tap to capture</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Check Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="checkAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00">
+                    </div>
+                </div>
+
+                <button onclick="handleMobileDeposit()" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-check-circle"></i>
+                    Submit Deposit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Management Modal -->
+    <div id="cardModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-8 modal-enter relative my-8">
+            <button onclick="closeCardModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-slate-100 to-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-credit-card text-slate-700 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Card Management</h2>
+                <p class="text-slate-500">Manage your debit and credit cards</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Virtual Card Preview -->
+                <div class="credit-card w-full rounded-2xl p-6 text-white relative overflow-hidden mb-6">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="text-2xl font-bold italic serif tracking-wider">VISA</div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm">Virtual</span>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm opacity-70 mb-1 uppercase tracking-widest">Card Number</div>
+                        <div class="text-2xl font-mono tracking-widest" id="virtualCardNumber">4532  ••••  ••••  8901</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Card Holder</div>
+                            <div class="text-lg font-bold tracking-widest uppercase" id="virtualCardHolder">Alexander Morgan</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Expires</div>
+                            <div class="text-lg font-bold" id="virtualCardExpiry">09/28</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="toggleCardFreeze()" id="freezeCardBtn" class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-snowflake text-2xl text-blue-600"></i>
+                        <span class="font-bold text-slate-700">Freeze Card</span>
+                    </button>
+                    <button onclick="showCardDetails()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-eye text-2xl text-green-600"></i>
+                        <span class="font-bold text-slate-700">Show Details</span>
+                    </button>
+                    <button onclick="requestNewCard()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-sync-alt text-2xl text-purple-600"></i>
+                        <span class="font-bold text-slate-700">Replace Card</span>
+                    </button>
+                    <button onclick="setSpendingLimit()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-amber-500 hover:bg-amber-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-sliders-h text-2xl text-amber-600"></i>
+                        <span class="font-bold text-slate-700">Spending Limits</span>
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-slate-900 mb-3">Recent Card Activity</h4>
+                    <div class="space-y-3" id="cardActivityList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg modal-enter relative my-8">
+            <div id="receiptContent" class="receipt-paper p-8 rounded-3xl relative overflow-hidden">
+                <div class="watermark" id="receiptWatermark">PAID</div>
+                
+                <div class="stamp" id="receiptStamp">
+                    <div class="stamp-text">
+                        <i class="fas fa-check-circle text-2xl mb-1 block"></i>
+                        COMPLETED
+                    </div>
+                </div>
+
+                <div class="text-center mb-6 relative z-10">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-university text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 serif">First National Trust Bank</h3>
+                    <p class="text-sm text-slate-500 font-medium">Official Transaction Receipt</p>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="space-y-4 relative z-10">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Receipt ID</span>
+                        <span class="font-mono font-bold text-slate-900" id="receiptId">#TXN-20260317-001</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Date & Time</span>
+                        <span class="font-bold text-slate-900 text-right" id="receiptDate">Mar 17, 2026<br>04:50 PM EST</span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Status</span>
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-bold">
+                            <i class="fas fa-check-circle"></i>
+                            CONFIRMED
+                        </span>
+                    </div>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="text-center py-4 relative z-10">
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-widest mb-1">Amount</p>
+                    <h2 class="text-5xl font-bold text-slate-900 amount-display gold-text" id="receiptAmount">$10,000,000.00</h2>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="space-y-4 relative z-10">
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">From</p>
+                        <p class="font-bold text-slate-900 text-lg" id="receiptFrom">Checking •••• 4521</p>
+                        <p class="text-sm text-slate-600">First National Trust Bank</p>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <i class="fas fa-arrow-down text-slate-300 text-2xl"></i>
+                    </div>
+
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">To</p>
+                        <p class="font-bold text-slate-900 text-lg" id="receiptTo">Chase Bank</p>
+                        <p class="text-sm text-slate-600" id="receiptToDetail">Account •••• 9876</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl mt-4">
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Memo</p>
+                        <p class="text-slate-700 font-medium" id="receiptMemo">Investment Transfer</p>
+                    </div>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="barcode opacity-30"></div>
+                <p class="text-center text-xs text-slate-400 font-mono mt-2" id="receiptBarcode">|| | ||| | || ||| | || | ||| || | |||</p>
+
+                <div class="text-center mt-6 relative z-10">
+                    <p class="text-xs text-slate-400 mb-2">This is an official receipt of First National Trust Bank</p>
+                    <p class="text-xs text-slate-500">Questions? Call 1-800-FNTB-HELP</p>
+                    <div class="mt-4 flex justify-center gap-2">
+                        <i class="fas fa-shield-alt text-green-500"></i>
+                        <span class="text-xs font-bold text-slate-600">SECURE VERIFIED</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-slate-50 rounded-b-3xl flex gap-3">
+                <button onclick="downloadReceipt()" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold hover:shadow-lg smooth-transition flex items-center justify-center gap-2">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+                <button onclick="shareReceipt()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 smooth-transition flex items-center justify-center gap-2">
+                    <i class="fas fa-share-alt"></i>
+                    Share
+                </button>
+                <button onclick="closeReceiptModal()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 smooth-transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <section class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden min-h-[80vh] flex items-center">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 w-full">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="slide-in">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-5 py-2.5 mb-8 border border-white/20">
+                            <span class="w-2 h-2 bg-green-400 rounded-full pulse-ring"></span>
+                            <span class="text-sm font-semibold tracking-wide">Now offering 5.25% APY on Premium Savings</span>
+                        </div>
+                        <h1 class="text-5xl lg:text-7xl font-bold mb-8 leading-tight serif">
+                            Wealth management <br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-300">reimagined</span>
+                        </h1>
+                        <p class="text-xl text-blue-100 mb-10 leading-relaxed max-w-lg">
+                            Experience institutional-grade banking with personal attention. Join over 2 million clients managing $50B+ in assets.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="toggleLogin()" class="bg-white text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl smooth-transition transform hover:scale-105 flex items-center gap-2">
+                                Get Started
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 smooth-transition backdrop-blur-sm">
+                                View Rates
+                            </button>
+                        <div class="mt-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-blue-100 border border-white/20">
+                            <i class="fas fa-lock text-green-300"></i>
+                            Real-time fraud detection and 24/7 protection
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative hidden lg:block perspective-1000">
+                        <div class="credit-card w-full max-w-md mx-auto rounded-3xl p-8 text-white shadow-2xl transform rotate-y-12 hover:rotate-y-0 smooth-transition cursor-pointer relative z-20">
+                            <div class="flex justify-between items-start mb-12">
+                                <div class="text-3xl font-bold italic serif tracking-wider">VISA</div>
+                                <i class="fas fa-wifi text-3xl opacity-80"></i>
+                            </div>
+                            <div class="mb-12">
+                                <div class="text-sm opacity-70 mb-2 uppercase tracking-widest font-semibold">Card Number</div>
+                                <div class="text-3xl font-mono tracking-widest drop-shadow-lg">4532  ••••  ••••  8901</div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Card Holder</div>
+                                    <div class="text-xl font-bold tracking-widest uppercase">Alexander Morgan</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Expires</div>
+                                    <div class="text-xl font-bold">09/28</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-5 shadow-2xl border border-slate-100 z-30 animate-bounce" style="animation-duration: 3s;">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-arrow-up text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-500 font-semibold uppercase">This Month</div>
+                                    <div class="font-bold text-slate-900 text-xl">+$2,450.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Quick Overview -->
+        <section id="serviceSection" class="bg-white border-t border-slate-200 py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:justify-between items-start gap-4 mb-4">
+                    <div>
+                        <p class="text-xs uppercase text-blue-600 font-bold tracking-widest">Service Centers</p>
+                        <h3 class="text-2xl font-bold text-slate-900">Explore your banking options</h3>
+                        <p class="text-slate-500 max-w-2xl">Select Personal, Business, Wealth, or Support to view tailored products and actions.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="showServiceSection('personal')" id="serviceBtnPersonal" class="px-4 py-2 rounded-full bg-blue-700 text-white text-xs uppercase font-semibold">Personal</button>
+                        <button onclick="showServiceSection('business')" id="serviceBtnBusiness" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Business</button>
+                        <button onclick="showServiceSection('wealth')" id="serviceBtnWealth" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Wealth</button>
+                        <button onclick="showServiceSection('support')" id="serviceBtnSupport" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Support</button>
+                    </div>
+                </div>
+
+                <div id="serviceContent" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div id="personalContent" class="service-panel bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-blue-100 text-blue-700"><i class="fas fa-user"></i></div><div><p class="text-xs uppercase text-slate-500">Personal Banking</p><h4 class="font-bold text-xl text-slate-800">Everyday Finance</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Premium checking with no monthly fees</li>
+                            <li>High-yield savings with 5.25% APY</li>
+                            <li>Mobile check deposit and instant transfers</li>
+                            <li>Auto-pay and bill reminders</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-blue-600 text-white text-xs font-semibold" onclick="openAddMoneyModal()">Add Money</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Feature coming soon', 'info')">Open Account</button></div>
+                    </div>
+                    <div id="businessContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-indigo-100 text-indigo-700"><i class="fas fa-briefcase"></i></div><div><p class="text-xs uppercase text-slate-500">Business Banking</p><h4 class="font-bold text-xl text-slate-800">Grow Your Company</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Business checking with cash management</li>
+                            <li>Corporate cards with expense controls</li>
+                            <li>Payroll integration and ACH services</li>
+                            <li>Local business advisor access</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-indigo-600 text-white text-xs font-semibold" onclick="openTransferModal()">Send Payment</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Business account setup is quick', 'info')">Start Application</button></div>
+                    </div>
+                    <div id="wealthContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-amber-100 text-amber-700"><i class="fas fa-chart-line"></i></div><div><p class="text-xs uppercase text-slate-500">Wealth Management</p><h4 class="font-bold text-xl text-slate-800">Build Long-Term Growth</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Portfolio rebalancing and strategy reviews</li>
+                            <li>Retirement planning and trust services</li>
+                            <li>Tax-smart investment options</li>
+                            <li>Direct access to personal advisors</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-amber-600 text-white text-xs font-semibold" onclick="showToast('Wealth advisor contacted', 'success')">Book Consultation</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Custom plan created', 'info')">View Strategy</button></div>
+                    </div>
+                    <div id="supportContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-emerald-100 text-emerald-700"><i class="fas fa-headset"></i></div><div><p class="text-xs uppercase text-slate-500">Customer Support</p><h4 class="font-bold text-xl text-slate-800">We're Here to Help</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>24/7 fraud and account support</li>
+                            <li>Secure messaging with your relationship manager</li>
+                            <li>Lost card lock/unlock in one click</li>
+                            <li>View service ticket status instantly</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-emerald-600 text-white text-xs font-semibold" onclick="showToast('Support chat opened', 'info')">Chat Now</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('We will call you shortly', 'success')">Request Call</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="hidden min-h-screen bg-slate-50 pb-12">
+        <div class="bg-white border-b border-slate-200 sticky top-16 z-30 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Welcome back, <span id="userNameDisplay" class="text-blue-900">Alexander</span></h2>
+                        <p class="text-slate-500 mt-1 flex items-center gap-2">
+                            <i class="fas fa-clock text-xs"></i>
+                            Last login: <span id="lastLogin">Today at 4:50 PM EST</span>
+                        </p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="openAddMoneyModal()" class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-full font-bold hover:shadow-lg smooth-transition flex items-center gap-2 transform hover:scale-105">
+                            <i class="fas fa-plus"></i>
+                            Add Money
+                        </button>
+                        <button onclick="openTransferModal()" class="px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full font-bold hover:shadow-lg smooth-transition flex items-center gap-2 transform hover:scale-105">
+                            <i class="fas fa-exchange-alt"></i>
+                            Transfer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <!-- Total Balance Card -->
+            <div class="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <p class="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-2">Total Net Worth</p>
+                            <h3 class="text-6xl font-bold money-counter" id="totalBalance">$47,284.52</h3>
+                            <div class="flex items-center gap-2 mt-3">
+                                <span id="balanceGrowth" class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm font-bold flex items-center gap-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +0.0%
+                                </span>
+                                <span class="text-blue-200 text-sm" id="balanceGrowthPeriod">vs last refresh</span>
+                            <button id="liveModeButton" onclick="toggleLiveMode()" class="px-3 py-1 rounded-full bg-red-500/20 text-red-100 font-semibold">Live: Off</button>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="updateChartPeriod('1M')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">1M</button>
+                            <button onclick="updateChartPeriod('6M')" class="px-4 py-2 bg-white text-blue-900 rounded-full text-sm font-bold shadow-lg">6M</button>
+                            <button onclick="updateChartPeriod('1Y')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">1Y</button>
+                            <button onclick="updateChartPeriod('ALL')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">ALL</button>
+                        </div>
+                    </div>
+                    <div class="h-40 w-full">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onclick="openPayBillsModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-purple-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-file-invoice-dollar text-purple-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Pay Bills</span>
+                </button>
+                <button onclick="openMobileDepositModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-camera text-blue-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Deposit Check</span>
+                </button>
+                <button onclick="openCardModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-slate-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-credit-card text-slate-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Cards</span>
+                </button>
+                <button onclick="showSpendingInsights()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-green-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-chart-pie text-green-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Insights</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-300 font-semibold">30-Day Summary</p>
+                        <span class="text-green-500 font-semibold text-xs">Updated</span>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-900 dark:text-white" id="summaryNet">$0.00</div>
+                    <div class="text-xs text-slate-400 dark:text-slate-300 mb-3">Net balance change in last 30 days</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="rounded-xl bg-green-50 dark:bg-emerald-900/20 p-2">
+                            <div class="font-semibold text-green-700 dark:text-emerald-300" id="summaryCredit">+$0.00</div>
+                            <div class="text-slate-500 dark:text-slate-200">Total Income</div>
+                        </div>
+                        <div class="rounded-xl bg-red-50 dark:bg-red-900/20 p-2">
+                            <div class="font-semibold text-red-700 dark:text-rose-300" id="summaryDebit">-$0.00</div>
+                            <div class="text-slate-500 dark:text-slate-200">Total Spend</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl p-3 shadow-lg border border-white/20">
+                    <div class="flex items-center justify-between mb-1">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.18em] text-blue-100 font-semibold">Security Center</p>
+                            <h3 class="text-base font-bold mt-0.5">Account Safety</h3>
+                        </div>
+                        <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px] font-semibold">Protected</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-1 text-xs">
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">2FA</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" id="safetyTwoFactorStatus">Enabled</p>
+                        </div>
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">Trusted Devices</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" data-security-stat="trusted-devices">0 devices</p>
+                        </div>
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">Recent Logins</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" data-security-stat="login-history">0 logins</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-1">
+                        <button onclick="toggleTwoFactor();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Toggle 2FA</button>
+                        <button onclick="addCurrentDevice();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Add device</button>
+                        <button onclick="showLoginHistory();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Login history</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 border border-white/20"><i class="fas fa-check text-green-300"></i> Biometric login ready</div>
+            <div class="mt-3 text-xs text-blue-100 font-semibold">
+                <div class="flex items-center gap-2"><i class="fas fa-mobile-alt"></i> <span id="safetyDevicesExternal">0 recognized devices</span></div>
+                <div class="flex items-center gap-2"><i class="fas fa-history"></i> <span id="safetyLoginExternal">0 recent logins</span></div>
+            </div>
+            <div class="mt-3 text-[11px] text-blue-100">Tip: Keep your password unique and never share security codes.</div>
+            </div>
+
+            <!-- Account Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group" onclick="selectAccount('checking')">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center group-hover:bg-blue-900 smooth-transition">
+                            <i class="fas fa-credit-card text-blue-900 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Primary</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">Checking Account</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="checkingBalance">$12,450.00</h4>
+                    <p class="text-sm text-slate-400 font-mono">•••• •••• 4521</p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Available</span>
+                        <span class="font-bold text-slate-900" id="checkingAvailable">$12,450.00</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group" onclick="selectAccount('savings')">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center group-hover:bg-green-600 smooth-transition">
+                            <i class="fas fa-piggy-bank text-green-600 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="secure-badge text-white text-xs px-3 py-1.5 rounded-full font-bold shadow-lg">5.25% APY</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">High-Yield Savings</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="savingsBalance">$34,834.52</h4>
+                    <p class="text-sm text-green-600 font-bold flex items-center gap-1">
+                        <i class="fas fa-chart-line"></i>
+                        +$892.34 interest YTD
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Projected Annual</span>
+                        <span class="font-bold text-green-600">+$1,829.81</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 smooth-transition">
+                            <i class="fas fa-chart-pie text-purple-600 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Wealth</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">Investment Portfolio</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="investmentBalance">$28,392.18</h4>
+                    <p class="text-sm text-green-600 font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-up"></i>
+                        +8.2% YTD
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Risk Level</span>
+                        <span class="font-bold text-amber-600">Moderate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spending Insights (Hidden by default) -->
+            <div id="spendingInsights" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-900 text-lg">Spending Insights</h3>
+                    <button onclick="hideSpendingInsights()" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="chart-container">
+                        <canvas id="spendingChart"></canvas>
+                    </div>
+                    <div class="space-y-4" id="spendingCategories">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connected External Banks -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-900 text-lg">Connected External Banks</h3>
+                    <button class="text-blue-900 text-sm font-bold hover:underline">Manage</button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div onclick="shortcutExternalTransfer('chase')" class="bank-logo selected p-4 rounded-xl border-2 border-blue-500 bg-blue-50 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center text-white font-bold text-xs">Chase</div>
+                        <span class="text-xs font-bold text-slate-700">Chase</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('bofa')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-red-700 rounded-lg flex items-center justify-center text-white font-bold text-xs">BofA</div>
+                        <span class="text-xs font-bold text-slate-700">Bank of America</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('wells')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">WF</div>
+                        <span class="text-xs font-bold text-slate-700">Wells Fargo</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('citi')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">Citi</div>
+                        <span class="text-xs font-bold text-slate-700">Citibank</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('usbank')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center text-white font-bold text-xs">U</div>
+                        <span class="text-xs font-bold text-slate-700">U.S. Bank</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-900 text-lg">Recent Transactions</h3>
+                    <div class="flex gap-3">
+                        <button onclick="filterTransactions('all')" class="text-sm text-blue-900 font-bold hover:underline">All</button>
+                        <button onclick="filterTransactions('income')" class="text-sm text-slate-500 hover:text-blue-900 font-medium smooth-transition">Income</button>
+                        <button onclick="filterTransactions('expense')" class="text-sm text-slate-500 hover:text-blue-900 font-medium smooth-transition">Expenses</button>
+                    </div>
+                </div>
+                <div id="transactionsList" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto"></div>
+                <div class="p-4 border-t border-slate-200 text-center">
+                    <button onclick="loadMoreTransactions()" class="text-blue-900 font-bold text-sm hover:underline">Load More Transactions</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">F</div>
+                        <div>
+                            <div class="text-white font-bold text-lg">First National</div>
+                            <div class="text-xs text-slate-500">Trust Bank</div>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">Premier financial services with institutional-grade security and personalized wealth management solutions.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 smooth-transition text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-400 smooth-transition text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 smooth-transition text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Personal Banking</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white smooth-transition">Premium Checking</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">High-Yield Savings</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Credit Cards</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Mortgages</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Wealth Management</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white smooth-transition">Investment Advisory</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Retirement Planning</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Trust Services</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Contact</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone text-blue-500"></i>
+                            <span>1-800-FNTB-HELP</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-blue-500"></i>
+                            <span>private@fntb.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <div class="text-slate-600">
+                    © 2026 First National Trust Bank. Member FDIC. Equal Housing Lender.
+                </div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white smooth-transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white smooth-transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Banking Application State
+        const BankApp = {
+            user: {
+                name: 'Alexander Morgan',
+                userId: 'alex.morgan',
+                lastLogin: new Date().toLocaleString('en-US', { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                }) + ' EST'
+            },
+            accounts: {
+                checking: { name: 'Checking Account', number: '•••• 4521', balance: 100000000.00, available: 100000000.00, type: 'checking' },
+                savings: { name: 'High-Yield Savings', number: '•••• 8823', balance: 100000000.00, available: 100000000.00, type: 'savings', apy: 5.25 },
+                investment: { name: 'Investment Portfolio', number: '•••• 7734', balance: 28392.18, available: 28392.18, type: 'investment' }
+            },
+            externalBanks: {
+                chase: { name: 'Chase Bank', logo: 'bg-blue-900', color: 'blue' },
+                bofa: { name: 'Bank of America', logo: 'bg-red-700', color: 'red' },
+                wells: { name: 'Wells Fargo', logo: 'bg-red-600', color: 'red' },
+                citi: { name: 'Citibank', logo: 'bg-blue-600', color: 'blue' },
+                usbank: { name: 'U.S. Bank', logo: 'bg-blue-800', color: 'blue' },
+                pnc: { name: 'PNC Bank', logo: 'bg-orange-600', color: 'orange' },
+                capitalone: { name: 'Capital One', logo: 'bg-red-500', color: 'red' },
+                td: { name: 'TD Bank', logo: 'bg-green-600', color: 'green' },
+                schwab: { name: 'Charles Schwab', logo: 'bg-blue-700', color: 'blue' },
+                other: { name: 'External Bank', logo: 'bg-slate-600', color: 'slate' }
+            },
+            transactions: [],
+            spendingCategories: [
+                { name: 'Shopping', amount: 2450, color: '#ef4444', icon: 'shopping-bag' },
+                { name: 'Groceries', amount: 890, color: '#3b82f6', icon: 'utensils' },
+                { name: 'Utilities', amount: 450, color: '#6b7280', icon: 'bolt' },
+                { name: 'Entertainment', amount: 320, color: '#f59e0b', icon: 'play' },
+                { name: 'Transportation', amount: 280, color: '#10b981', icon: 'car' }
+            ],
+            isLoggedIn: false,
+            loginAttempts: 0,
+            lockoutExpiry: null,
+            currentReceipt: null,
+            cardFrozen: false,
+            previousNetWorth: null,
+            liveModeInterval: null,
+            disableToasts: true,
+            security: {
+                twoFactorEnabled: true,
+                trustedDevices: ['This device', 'Work laptop', 'iPhone 15'],
+                emailAlerts: true,
+                smsAlerts: true,
+                pushAlerts: true
+            },
+            notifications: [
+                { id: 1, title: 'Transfer Completed', message: 'Your transfer to Chase Bank was successful.', time: '2 min ago', read: false, type: 'success' },
+                { id: 2, title: 'Security Alert', message: 'New login detected from New York, NY.', time: '1 hour ago', read: false, type: 'warning' },
+                { id: 3, title: 'Interest Earned', message: 'You earned $45.23 in interest this month.', time: '1 day ago', read: true, type: 'info' }
+            ]
+        };
+
+        let portfolioChart = null;
+        let spendingChart = null;
+
+        function generateLast30DaysTransactions() {
+            const sources = [
+                { name: 'Direct Deposit', category: 'Income', type: 'credit', icon: 'arrow-down', color: 'green', min: 3200, max: 6500 },
+                { name: 'PayPal Transfer', category: 'Income', type: 'credit', icon: 'paypal', color: 'green', min: 180, max: 950 },
+                { name: 'Starbucks', category: 'Dining', type: 'debit', icon: 'cup-hot', color: 'orange', min: 6, max: 45 },
+                { name: 'Whole Foods', category: 'Groceries', type: 'debit', icon: 'utensils', color: 'blue', min: 20, max: 210 },
+                { name: 'Electric Bill', category: 'Utilities', type: 'debit', icon: 'bolt', color: 'gray', min: 65, max: 190 },
+                { name: 'Netflix', category: 'Entertainment', type: 'debit', icon: 'play', color: 'red', min: 12, max: 22 },
+                { name: 'Amazon', category: 'Shopping', type: 'debit', icon: 'shopping-bag', color: 'red', min: 17, max: 400 },
+                { name: 'ATM Withdrawal', category: 'Cash', type: 'debit', icon: 'money-bill-wave', color: 'amber', min: 20, max: 300 },
+                { name: 'Transfer to Savings', category: 'Transfer', type: 'debit', icon: 'arrow-right', color: 'cyan', min: 100, max: 700 },
+                { name: 'Investment Dividend', category: 'Income', type: 'credit', icon: 'chart-line', color: 'green', min: 35, max: 220 }
+            ];
+
+            const transactions = [];
+            let id = 1;
+            for (let days = 0; days < 30; days++) {
+                const date = new Date();
+                date.setDate(date.getDate() - days);
+                const dailyCount = Math.floor(Math.random() * 2) + 1;
+
+                for (let t = 0; t < dailyCount; t++) {
+                    const template = sources[Math.floor(Math.random() * sources.length)];
+                    const amount = Number((template.min + Math.random() * (template.max - template.min)).toFixed(2));
+                    const type = template.type;
+                    const value = type === 'credit' ? amount : -amount;
+                    transactions.push({
+                        id: id++,
+                        date: new Date(date.getFullYear(), date.getMonth(), date.getDate(), Math.floor(Math.random() * 24), Math.floor(Math.random() * 60)),
+                        name: template.name,
+                        category: template.category,
+                        amount: value,
+                        type,
+                        icon: template.icon,
+                        color: template.color,
+                        status: 'completed'
+                    });
+                }
+            }
+            BankApp.transactions = transactions.sort((a, b) => b.date - a.date);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('fntb-auth');
+            if (saved) {
+                const session = JSON.parse(saved);
+                if (session.isLoggedIn && session.userId && session.name) {
+                    BankApp.isLoggedIn = true;
+                    BankApp.user.userId = session.userId;
+                    BankApp.user.name = session.name;
+                    BankApp.user.lastLogin = session.lastLogin || BankApp.user.lastLogin;
+                    document.getElementById('authButton').textContent = 'Sign Out';
+                    document.getElementById('authButton').onclick = handleLogout;
+                    showDashboard();
+                }
+            }
+            generateLast30DaysTransactions();
+            updateNotificationBadge();
+            updateSecurityCenter();
+            updateDashboard();
+            renderTransactions();
+            document.getElementById('lastLogin').textContent = BankApp.user.lastLogin;
+            initPortfolioChart();
+            showServiceSection('personal');
+            loadSettingsFromStorage();
+        });
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        }
+
+        function formatDate(date) {
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / 86400000);
+            if (days === 0) return 'Today, ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            if (days === 1) return 'Yesterday';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function showToast(message, type = 'success') {
+            if (BankApp.disableToasts) return;
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-blue-600', warning: 'bg-amber-600' };
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.className = `${colors[type] || colors.success} text-white px-4 py-3 rounded-xl shadow-lg flex items-start gap-2 max-w-sm opacity-95`;
+            toast.innerHTML = `<div class="mt-0.5"><i class="fas ${icons[type] || icons.info}"></i></div><div class="text-xs">${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(24px)'; setTimeout(() => toast.remove(), 300); }, 2800);
+        }
+
+        function showServiceSection(section) {
+            const sections = ['personal', 'business', 'wealth', 'support'];
+            sections.forEach(s => {
+                const panel = document.getElementById(`${s}Content`);
+                const nav = document.getElementById(`serviceBtn${s.charAt(0).toUpperCase() + s.slice(1)}`);
+                const link = document.getElementById(`nav${s.charAt(0).toUpperCase() + s.slice(1)}`);
+                if (panel) panel.classList.toggle('hidden', s !== section);
+                if (nav) {
+                    nav.classList.toggle('bg-blue-700', s === section);
+                    nav.classList.toggle('text-white', s === section);
+                    nav.classList.toggle('bg-slate-200', s !== section);
+                    nav.classList.toggle('text-slate-700', s !== section);
+                }
+                if (link) {
+                    link.classList.toggle('text-blue-900', s === section);
+                    link.classList.toggle('font-bold', s === section);
+                    link.classList.toggle('text-slate-600', s !== section);
+                }
+            });
+
+            const serviceTitle = {
+                personal: 'Personal Banking Overview',
+                business: 'Business Banking Solutions',
+                wealth: 'Wealth Management Planning',
+                support: 'Customer Support Center'
+            };
+            showToast(`Now viewing ${serviceTitle[section]} section.`, 'info');
+        }
+
+        function showSettingsTab(tab) {
+            document.querySelectorAll('.settings-panel').forEach(panel => panel.classList.add('hidden'));
+            document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+
+            const map = {
+                account: 'settingsAccount',
+                security: 'settingsSecurity'
+            };
+            const selected = map[tab] || 'settingsAccount';
+            document.getElementById(selected).classList.remove('hidden');
+            const selectedBtn = document.getElementById(`settingsTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+            if (selectedBtn) {
+                selectedBtn.classList.remove('bg-slate-100', 'text-slate-700');
+                selectedBtn.classList.add('bg-blue-600', 'text-white');
+            }
+        }
+
+        function loadSettingsFromStorage() {
+            showSettingsTab('account');
+            document.querySelectorAll('#twoFactorStatus, #safetyTwoFactorStatus').forEach(el => el.textContent = BankApp.security.twoFactorEnabled ? 'Enabled' : 'Disabled');
+            const stored = JSON.parse(localStorage.getItem('fntb-user') || 'null');
+            if (stored) {
+                document.getElementById('settingsName').value = stored.name || '';
+                document.getElementById('settingsEmail').value = stored.email || '';
+            }
+            updateSecurityCenter();
+        }
+
+        function saveAccountSettings(e) {
+            e.preventDefault();
+            const name = document.getElementById('settingsName').value.trim();
+            const email = document.getElementById('settingsEmail').value.trim();
+            const password = document.getElementById('settingsPassword').value;
+            const passwordConfirm = document.getElementById('settingsPasswordConfirm').value;
+
+            if (!name || !email) { showToast('Name and email are required.', 'error'); return; }
+            if (password && password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
+            if (password && password !== passwordConfirm) { showToast('Passwords do not match.', 'error'); return; }
+
+            const stored = JSON.parse(localStorage.getItem('fntb-user') || 'null') || {};
+            stored.name = name;
+            stored.email = email;
+            if (password) stored.password = password;
+            localStorage.setItem('fntb-user', JSON.stringify(stored));
+
+            BankApp.user.name = name;
+            document.getElementById('userNameDisplay').textContent = name;
+            showToast('Account settings updated successfully.', 'success');
+            document.getElementById('settingsPassword').value = '';
+            document.getElementById('settingsPasswordConfirm').value = '';
+        }
+
+        function getDeviceId() {
+            const fingerprint = `${navigator.platform}-${navigator.userAgent}-${navigator.language}`;
+            let hash = 0;
+            for (let i = 0; i < fingerprint.length; i++) { hash = ((hash << 5) - hash) + fingerprint.charCodeAt(i); hash |= 0; }
+            return `device-${Math.abs(hash)}`;
+        }
+
+        function getRecognizedDevices() {
+            return JSON.parse(localStorage.getItem('fntb-devices') || '[]');
+        }
+
+        function addRecognizedDevice(deviceId) {
+            const devices = getRecognizedDevices();
+            if (!devices.includes(deviceId)) {
+                devices.push(deviceId);
+                localStorage.setItem('fntb-devices', JSON.stringify(devices));
+            }
+            updateSecurityCenter();
+        }
+
+        function addLoginHistory() {
+            const history = JSON.parse(localStorage.getItem('fntb-login-history') || '[]');
+            history.unshift({ time: new Date().toLocaleString(), device: navigator.platform, location: 'Unknown', status: 'Success' });
+            localStorage.setItem('fntb-login-history', JSON.stringify(history.slice(0, 5)));
+            updateSecurityCenter();
+        }
+
+        function resetLoginForm() {
+            document.getElementById('userId').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('loginSubmitBtn').textContent = 'Sign In Securely';
+            document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('rememberMe').checked = false;
+        }
+
+        function togglePasswordVisibility(fieldId, btnId) {
+            const field = document.getElementById(fieldId);
+            const btn = document.getElementById(btnId);
+            if (!field || !btn) return;
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                field.type = 'password';
+                btn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleLogin() {
+            const modal = document.getElementById('loginModal');
+            const overlay = document.getElementById('loginScreenOverlay');
+            modal.classList.toggle('hidden');
+            overlay.classList.toggle('hidden');
+            if (modal.classList.contains('hidden')) {
+                document.body.style.overflow = 'auto';
+                resetLoginForm();
+            } else {
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    const userIdInput = document.getElementById('userId');
+                    if (userIdInput) userIdInput.focus();
+                }, 60);
+            }
+        }
+
+        function showLoginError(message) {
+            const el = document.getElementById('loginError');
+            el.textContent = message;
+            el.classList.remove('hidden');
+        }
+
+        function clearLoginError() {
+            const el = document.getElementById('loginError');
+            el.textContent = '';
+            el.classList.add('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const now = Date.now();
+
+            if (BankApp.lockoutExpiry && now < BankApp.lockoutExpiry) {
+                const remaining = Math.ceil((BankApp.lockoutExpiry - now) / 1000);
+                showLoginError(`Too many attempts. Try again in ${remaining} seconds.`);
+                return;
+            }
+
+            const userId = document.getElementById('userId').value.trim();
+            const password = document.getElementById('password').value;
+
+            clearLoginError();
+
+            if (!userId || !password) {
+                showLoginError('Enter both User ID and password.');
+                return;
+            }
+
+            if (password.length < 6 || !/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+                showLoginError('Password must be at least 6 chars and include letters and numbers.');
+                return;
+            }
+
+            const storedUser = JSON.parse(localStorage.getItem('fntb-user') || 'null');
+            if (!storedUser) {
+                showLoginError('No account found. Please enroll before signing in.');
+                return;
+            }
+
+            if (storedUser.userId !== userId || storedUser.password !== password) {
+                showLoginError('User ID or password not recognized. Please enroll or retry.');
+                return;
+            }
+
+            const deviceId = getDeviceId();
+            const recognized = getRecognizedDevices().includes(deviceId);
+            if (!recognized) {
+                showToast('New device detected: verification recommended.', 'warning');
+            }
+
+            BankApp.isLoggedIn = true;
+            BankApp.user.name = userId.split(/[\s._-]+/).map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(' ');
+            BankApp.user.userId = userId;
+            if (document.getElementById('rememberMe').checked) {
+                addRecognizedDevice(deviceId);
+            }
+            addLoginHistory();
+            BankApp.user.lastLogin = new Date().toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' EST';
+            localStorage.setItem('fntb-auth', JSON.stringify({ isLoggedIn: true, userId: BankApp.user.userId, name: BankApp.user.name, lastLogin: BankApp.user.lastLogin }));
+            toggleLogin();
+            showDashboard();
+            showToast(`Welcome back, ${BankApp.user.name}!`, 'success');
+            document.getElementById('authButton').textContent = 'Sign Out';
+            document.getElementById('authButton').onclick = handleLogout;
+            BankApp.loginAttempts = 0;
+        }
+
+        function handleLogout() {
+            BankApp.isLoggedIn = false;
+            localStorage.removeItem('fntb-auth');
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('authButton').textContent = 'Sign In';
+            document.getElementById('authButton').onclick = toggleLogin;
+            showToast('You have been signed out successfully', 'info');
+        }
+
+        function openEnrollModal() {
+            document.getElementById('enrollModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEnrollModal() {
+            document.getElementById('enrollModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleEnroll(e) {
+            e.preventDefault();
+            const name = document.getElementById('enrollName').value.trim();
+            const email = document.getElementById('enrollEmail').value.trim();
+            const userId = document.getElementById('enrollUserId').value.trim();
+            const password = document.getElementById('enrollPassword').value;
+            const errorEl = document.getElementById('enrollError');
+
+            errorEl.classList.add('hidden');
+            errorEl.textContent = '';
+
+            if (!name || !email || !userId || password.length < 6) {
+                errorEl.textContent = 'Please fill in all fields with valid information (password min 6 chars).';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            localStorage.setItem('fntb-user', JSON.stringify({ name, email, userId, password }));
+            showToast('Enrollment complete. Please sign in with your new account.', 'success');
+            closeEnrollModal();
+            toggleLogin();
+            document.getElementById('userId').value = userId;
+            document.getElementById('password').value = password;
+            return;
+        }
+
+        function showDashboard() {
+            if (!BankApp.isLoggedIn) { toggleLogin(); return; }
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+            updateDashboard();
+            updateSecurityCenter();
+        }
+
+        function animateMoneyCounter(elementId, targetValue, duration = 900) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const startValue = Number(el.getAttribute('data-start') || 0);
+            const start = performance.now();
+            const update = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const value = startValue + (targetValue - startValue) * progress;
+                el.textContent = formatCurrency(value);
+                if (progress < 1) requestAnimationFrame(update);
+                else { el.textContent = formatCurrency(targetValue); el.setAttribute('data-start', String(targetValue)); }
+            };
+            requestAnimationFrame(update);
+        }
+
+        function startLiveMode() {
+            if (BankApp.liveModeInterval) return;
+            BankApp.liveModeInterval = setInterval(() => {
+                const drift = (Math.random() - 0.45) * 1200;
+                BankApp.accounts.investment.balance = Math.max(0, BankApp.accounts.investment.balance + drift);
+                BankApp.accounts.investment.available = BankApp.accounts.investment.balance;
+                const savingDrift = (Math.random() - 0.5) * 160;
+                BankApp.accounts.savings.balance = Math.max(0, BankApp.accounts.savings.balance + savingDrift);
+                BankApp.accounts.savings.available = BankApp.accounts.savings.balance;
+                updateDashboard();
+            }, 3000);
+            const btn = document.getElementById('liveModeButton');
+            if (btn) { btn.textContent = 'Live: On'; btn.className = 'px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-100 font-semibold'; }
+        }
+
+        function stopLiveMode() {
+            if (BankApp.liveModeInterval) {
+                clearInterval(BankApp.liveModeInterval);
+                BankApp.liveModeInterval = null;
+            }
+            const btn = document.getElementById('liveModeButton');
+            if (btn) { btn.textContent = 'Live: Off'; btn.className = 'px-3 py-1 rounded-full bg-red-500/20 text-red-100 font-semibold'; }
+        }
+
+        function toggleLiveMode() {
+            if (BankApp.liveModeInterval) stopLiveMode(); else startLiveMode();
+        }
+
+        function updateDashboard() {
+            const total = BankApp.accounts.checking.balance + BankApp.accounts.savings.balance + BankApp.accounts.investment.balance;
+            const totalBalanceEl = document.getElementById('totalBalance');
+            if (totalBalanceEl) {
+                const current = Number(totalBalanceEl.getAttribute('data-start') || total);
+                totalBalanceEl.setAttribute('data-start', String(current));
+                animateMoneyCounter('totalBalance', total, 900);
+            }
+
+            const growthEl = document.getElementById('balanceGrowth');
+            const periodEl = document.getElementById('balanceGrowthPeriod');
+            if (growthEl) {
+                const prev = BankApp.previousNetWorth !== null ? BankApp.previousNetWorth : total;
+                const diff = total - prev;
+                const pct = prev === 0 ? 0 : (diff / prev) * 100;
+                const sign = diff >= 0 ? '+' : '-';
+                growthEl.innerHTML = `<i class='fas fa-arrow-${diff >= 0 ? 'up' : 'down'}'></i> ${sign}${Math.abs(pct).toFixed(2)}%`;
+                growthEl.className = `px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 ${diff >= 0 ? 'bg-emerald-500/20 text-emerald-200' : 'bg-red-500/20 text-red-200'}`;
+                BankApp.previousNetWorth = total;
+            }
+            if (periodEl) periodEl.textContent = 'vs last refresh';
+
+            document.getElementById('userNameDisplay').textContent = BankApp.user.name;
+            animateMoneyCounter('checkingBalance', BankApp.accounts.checking.balance, 850);
+            animateMoneyCounter('savingsBalance', BankApp.accounts.savings.balance, 850);
+            animateMoneyCounter('investmentBalance', BankApp.accounts.investment.balance, 850);
+            animateMoneyCounter('fromCheckingBalance', BankApp.accounts.checking.balance, 850);
+            animateMoneyCounter('fromSavingsBalance', BankApp.accounts.savings.balance, 850);
+            document.getElementById('checkingAvailable').textContent = formatCurrency(BankApp.accounts.checking.available);
+
+            const recent = BankApp.transactions.filter(tx => {
+                const cutoff = new Date();
+                cutoff.setDate(cutoff.getDate() - 30);
+                return new Date(tx.date) >= cutoff;
+            });
+            const totalCredit = recent.filter(tx => tx.type === 'credit').reduce((sum, tx) => sum + tx.amount, 0);
+            const totalDebit = recent.filter(tx => tx.type === 'debit').reduce((sum, tx) => sum + Math.abs(tx.amount), 0);
+            const net = totalCredit - totalDebit;
+            document.getElementById('summaryNet').textContent = net >= 0 ? `+${formatCurrency(net)}` : formatCurrency(net);
+            document.getElementById('summaryCredit').textContent = `+${formatCurrency(totalCredit)}`;
+            document.getElementById('summaryDebit').textContent = `-${formatCurrency(totalDebit)}`;
+            
+            updateAvailableBalance();
+        }
+
+        function initPortfolioChart() {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            portfolioChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [42000, 43500, 42800, 45000, 46500, 47284],
+                        borderColor: '#60a5fa',
+                        backgroundColor: 'rgba(96, 165, 250, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        function updateChartPeriod(period) {
+            // Update active button state
+            document.querySelectorAll('.chart-btn').forEach(btn => {
+                if (btn.textContent === period) {
+                    btn.classList.remove('bg-white/10', 'text-white');
+                    btn.classList.add('bg-white', 'text-blue-900');
+                } else {
+                    btn.classList.remove('bg-white', 'text-blue-900');
+                    btn.classList.add('bg-white/10', 'text-white');
+                }
+            });
+
+            // Simulate data update
+            const newData = period === '1M' ? [45000, 45500, 46000, 46500, 47000, 47284] :
+                           period === '6M' ? [42000, 43500, 42800, 45000, 46500, 47284] :
+                           period === '1Y' ? [35000, 38000, 40000, 42000, 45000, 47284] :
+                           [25000, 30000, 35000, 40000, 44000, 47284];
+            
+            portfolioChart.data.datasets[0].data = newData;
+            portfolioChart.update();
+            showToast(`Chart updated to ${period} view`, 'info');
+        }
+
+        function renderTransactions(filter = 'all') {
+            const container = document.getElementById('transactionsList');
+            container.innerHTML = '';
+            
+            let filtered = BankApp.transactions;
+            if (filter === 'income') filtered = BankApp.transactions.filter(t => t.type === 'credit');
+            if (filter === 'expense') filtered = BankApp.transactions.filter(t => t.type === 'debit');
+            
+            filtered.sort((a, b) => b.date - a.date).forEach(tx => {
+                const div = document.createElement('div');
+                div.className = 'p-5 hover:bg-slate-50 smooth-transition flex items-center justify-between cursor-pointer group';
+                div.onclick = () => showReceipt(tx);
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-${tx.color}-100 rounded-xl flex items-center justify-center group-hover:scale-110 smooth-transition">
+                            <i class="fas fa-${tx.icon} text-${tx.color}-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900 text-base">${tx.name}</p>
+                            <p class="text-sm text-slate-500">${formatDate(tx.date)} • ${tx.category}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-bold text-lg ${tx.type === 'credit' ? 'text-green-600' : 'text-slate-900'} amount-display">
+                            ${tx.type === 'credit' ? '+' : ''}${formatCurrency(tx.amount)}
+                        </span>
+                        <div class="text-xs text-slate-400 mt-1 flex items-center gap-1 justify-end">
+                            <i class="fas fa-receipt"></i>
+                            View Receipt
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function filterTransactions(type) {
+            renderTransactions(type);
+            showToast(`Showing ${type} transactions`, 'info');
+        }
+
+        function loadMoreTransactions() {
+            showToast('Loading more transactions...', 'info');
+            // Simulate loading
+            setTimeout(() => {
+                showToast('All transactions loaded', 'success');
+            }, 1000);
+        }
+
+        function openAddMoneyModal() {
+            document.getElementById('addMoneyModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddMoneyModal() {
+            document.getElementById('addMoneyModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function quickAdd(amount) {
+            document.getElementById('depositAmount').value = amount;
+            showToast(`$${amount.toLocaleString()} ready to deposit!`, 'info');
+        }
+
+        function handleAddMoney(e) {
+            e.preventDefault();
+            const account = document.getElementById('depositAccount').value;
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            if (!amount || amount <= 0) { showToast('Please enter a valid amount', 'error'); return; }
+            
+            BankApp.accounts[account].balance += amount;
+            BankApp.accounts[account].available += amount;
+            
+            const tx = {
+                id: Date.now(),
+                date: new Date(),
+                name: 'Deposit',
+                category: 'Transfer',
+                amount: amount,
+                type: 'credit',
+                icon: 'plus',
+                color: 'green',
+                status: 'completed',
+                from: 'External Account',
+                to: BankApp.accounts[account].name,
+                memo: 'Deposit'
+            };
+            BankApp.transactions.unshift(tx);
+            
+            updateDashboard();
+            renderTransactions();
+            closeAddMoneyModal();
+            showReceipt(tx);
+            addNotification('Deposit Received', `Added ${formatCurrency(amount)} to ${BankApp.accounts[account].name}.`, 'success', { txId: tx.id });
+            document.getElementById('depositAmount').value = '';
+        }
+
+        function openTransferModal() {
+            document.getElementById('transferModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            updateTransferOptions();
+        }
+
+        function closeTransferModal() {
+            document.getElementById('transferModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateTransferOptions() {
+            const from = document.getElementById('transferFrom').value;
+            const to = document.getElementById('transferTo').value;
+            const externalDetails = document.getElementById('externalBankDetails');
+            
+            updateAvailableBalance();
+            
+            if (BankApp.externalBanks[to]) {
+                externalDetails.classList.remove('hidden');
+            } else {
+                externalDetails.classList.add('hidden');
+            }
+        }
+
+        function updateAvailableBalance() {
+            const from = document.getElementById('transferFrom').value;
+            document.getElementById('availableBalance').textContent = formatCurrency(BankApp.accounts[from].balance);
+        }
+
+        function handleTransfer(e) {
+            e.preventDefault();
+            const from = document.getElementById('transferFrom').value;
+            const to = document.getElementById('transferTo').value;
+            const amount = parseFloat(document.getElementById('transferAmount').value);
+            const memo = document.getElementById('transferMemo').value || 'Transfer';
+            
+            if (!amount || amount <= 0) { showToast('Please enter a valid amount', 'error'); return; }
+            if (amount > BankApp.accounts[from].balance) { showToast('Insufficient funds', 'error'); return; }
+            if (from === to) { showToast('Cannot transfer to the same account', 'error'); return; }
+            
+            BankApp.accounts[from].balance -= amount;
+            BankApp.accounts[from].available -= amount;
+            
+            let toAccountName = '';
+            let toDetail = '';
+            
+            if (BankApp.externalBanks[to]) {
+                const bank = BankApp.externalBanks[to];
+                toAccountName = bank.name;
+                toDetail = `Account ${document.getElementById('externalAccountNumber').value || '•••• 9876'}`;
+                showToast(`Transfer of ${formatCurrency(amount)} to ${bank.name} submitted`, 'success');
+            } else {
+                BankApp.accounts[to].balance += amount;
+                BankApp.accounts[to].available += amount;
+                toAccountName = BankApp.accounts[to].name;
+                toDetail = BankApp.accounts[to].number;
+            }
+            
+            const tx = {
+                id: Date.now(),
+                date: new Date(),
+                name: `Transfer to ${toAccountName}`,
+                category: 'Transfer',
+                amount: -amount,
+                type: 'debit',
+                icon: 'paper-plane',
+                color: 'blue',
+                status: 'completed',
+                from: BankApp.accounts[from].name,
+                to: toAccountName,
+                toDetail: toDetail,
+                memo: memo
+            };
+            
+            BankApp.transactions.unshift(tx);
+            
+            updateDashboard();
+            renderTransactions();
+            closeTransferModal();
+            showReceipt(tx);
+            addNotification('Transfer Successful', `Sent ${formatCurrency(amount)} to ${toAccountName}.`, 'success', { txId: tx.id });
+            
+            document.getElementById('transferAmount').value = '';
+            document.getElementById('transferMemo').value = '';
+        }
+
+        function openPayBillsModal() {
+            document.getElementById('payBillsModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            // Set default date to today
+            document.getElementById('billDate').valueAsDate = new Date();
+        }
+
+        function openFastTransfers() {
+            closeSettings();
+            openTransferModal();
+            showToast('Fast transfers ready. Choose account and amount.', 'info');
+        }
+
+        function openCardControls() {
+            closeSettings();
+            openCardModal();
+            showToast('Manage your cards: freeze, unfreeze, or report lost.', 'info');
+        }
+
+        function openSecurityAlerts() {
+            closeSettings();
+            showToast('Security alerts are active. Reviewing recent sign-ins...', 'success');
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleTwoFactor() {
+            BankApp.security.twoFactorEnabled = !BankApp.security.twoFactorEnabled;
+            const statusText = BankApp.security.twoFactorEnabled ? 'Enabled' : 'Disabled';
+            document.querySelectorAll('#twoFactorStatus, #safetyTwoFactorStatus').forEach(el => el.textContent = statusText);
+            showToast(`Two-factor authentication ${BankApp.security.twoFactorEnabled ? 'enabled' : 'disabled'}.`, 'success');
+            addNotification('Two-Factor Authentication', `Two-factor is now ${BankApp.security.twoFactorEnabled ? 'enabled' : 'disabled'}.`, 'info');
+        }
+
+        function addCurrentDevice() {
+            const deviceId = getDeviceId();
+            addRecognizedDevice(deviceId);
+            showToast('This device is now trusted and added to your recognized devices list.', 'success');
+            addNotification('Device Added', 'This device was added to your trusted devices list.', 'success');
+            updateSecurityCenter();
+        }
+
+        function showLoginHistory() {
+            const history = JSON.parse(localStorage.getItem('fntb-login-history') || '[]');
+            if (!history.length) {
+                showToast('No login history yet. Sign in to seed your activity log.', 'info');
+                return;
+            }
+            const recent = history.slice(0, 3).map((item, i) => `${i + 1}. ${item.time} from ${item.device}`).join('\n');
+            alert(`Recent logins:\n${recent}`);
+        }
+
+        function updateSecurityCenter() {
+            const devices = getRecognizedDevices();
+            const history = JSON.parse(localStorage.getItem('fntb-login-history') || '[]');
+            document.querySelectorAll('[data-security-stat="trusted-devices"]').forEach(el => el.textContent = `${devices.length} device${devices.length === 1 ? '' : 's'}`);
+            document.querySelectorAll('[data-security-stat="login-history"]').forEach(el => el.textContent = `${history.length} login${history.length === 1 ? '' : 's'}`);
+            document.querySelectorAll('#recognizedDeviceCount, #safetyDevicesExternal').forEach(el => el.textContent = `${devices.length} recognized device${devices.length === 1 ? '' : 's'}`);
+            document.querySelectorAll('#loginHistoryCount, #safetyLoginExternal').forEach(el => el.textContent = `${history.length} recent login${history.length === 1 ? '' : 's'}`);
+        }
+
+        function viewTrustedDevices() {
+            const devices = getRecognizedDevices();
+            if (!devices.length) {
+                showToast('No trusted devices saved yet.', 'info');
+                return;
+            }
+            showToast(`Trusted devices: ${devices.join(', ')}`, 'info');
+        }
+
+        function shortcutExternalTransfer(bank) {
+            const map = {
+                chase: 'Chase Bank',
+                bofa: 'Bank of America',
+                wells: 'Wells Fargo',
+                citi: 'Citibank',
+                usbank: 'U.S. Bank'
+            };
+            const bankName = map[bank] || 'External Bank';
+            openTransferModal();
+            document.getElementById('transferFrom').value = 'checking';
+            document.getElementById('transferTo').value = bank;
+            document.getElementById('transferAmount').value = '150';
+            document.getElementById('transferMemo').value = `Quick transfer to ${bankName}`;
+            updateTransferOptions();
+            showToast(`Shortcut prepared for ${bankName}.`, 'success');
+        }
+
+        function lockOrUnlockCard() {
+            BankApp.cardFrozen = !BankApp.cardFrozen;
+            const statusText = BankApp.cardFrozen ? 'Frozen' : 'Active';
+            document.getElementById('lockCardButtonLabel').textContent = statusText;
+            showToast(`Your card is now ${statusText.toLowerCase()}.`, BankApp.cardFrozen ? 'warning' : 'success');
+            addNotification('Card Updated', `Your card status is now ${statusText}.`, BankApp.cardFrozen ? 'warning' : 'success');
+        }
+
+        function toggleEmailAlerts() {
+            BankApp.security.emailAlerts = !BankApp.security.emailAlerts;
+            document.getElementById('emailAlertBadge').textContent = BankApp.security.emailAlerts ? 'On' : 'Off';
+            showToast(`Email alerts ${BankApp.security.emailAlerts ? 'enabled' : 'disabled'}.`, 'info');
+        }
+
+        function toggleSmsAlerts() {
+            BankApp.security.smsAlerts = !BankApp.security.smsAlerts;
+            document.getElementById('smsAlertBadge').textContent = BankApp.security.smsAlerts ? 'On' : 'Off';
+            showToast(`SMS alerts ${BankApp.security.smsAlerts ? 'enabled' : 'disabled'}.`, 'info');
+        }
+
+        function togglePushAlerts() {
+            BankApp.security.pushAlerts = !BankApp.security.pushAlerts;
+            document.getElementById('pushAlertBadge').textContent = BankApp.security.pushAlerts ? 'On' : 'Off';
+            showToast(`Push alerts ${BankApp.security.pushAlerts ? 'enabled' : 'disabled'}.`, 'info');
+        }
+
+        function sendSecurityReport() {
+            showToast('Security report requested. Our team will contact you soon.', 'info');
+            addNotification('Security Report Sent', 'We have received your security report request.', 'info');
+        }
+
+        function downloadMonthlyStatement() {
+            const rows = [
+                ['Date', 'Description', 'Category', 'Amount', 'Type'],
+                ...BankApp.transactions.slice(0, 100).map(tx => [
+                    new Date(tx.date).toLocaleDateString(), tx.name, tx.category, tx.amount.toFixed(2), tx.type
+                ])
+            ];
+            const csv = rows.map(r => r.join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '30_day_statement.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('30-day statement download started.', 'success');
+            addNotification('Statement Download', 'Your 30-day statement download has started.', 'info');
+        }
+
+        function closePayBillsModal() {
+            document.getElementById('payBillsModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handlePayBill(e) {
+            e.preventDefault();
+            const payee = document.getElementById('billPayee');
+            const payeeName = payee.options[payee.selectedIndex].text;
+            const amount = parseFloat(document.getElementById('billAmount').value);
+            const date = document.getElementById('billDate').value;
+            
+            if (!amount || amount <= 0) {
+                showToast('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            const fromAccount = document.getElementById('billFromAccount').value;
+            
+            if (amount > BankApp.accounts[fromAccount].balance) {
+                showToast('Insufficient funds', 'error');
+                return;
+            }
+            
+            BankApp.accounts[fromAccount].balance -= amount;
+            BankApp.accounts[fromAccount].available -= amount;
+            
+            const tx = {
+                id: Date.now(),
+                date: new Date(date),
+                name: payeeName,
+                category: 'Bills & Utilities',
+                amount: -amount,
+                type: 'debit',
+                icon: 'file-invoice-dollar',
+                color: 'purple',
+                status: 'completed',
+                from: BankApp.accounts[fromAccount].name,
+                to: payeeName,
+                memo: 'Bill Payment'
+            };
+            
+            BankApp.transactions.unshift(tx);
+            
+            updateDashboard();
+            renderTransactions();
+            closePayBillsModal();
+            showReceipt(tx);
+            
+            showToast(`Bill payment of ${formatCurrency(amount)} scheduled`, 'success');
+            document.getElementById('billAmount').value = '';
+        }
+
+        function openMobileDepositModal() {
+            document.getElementById('mobileDepositModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileDepositModal() {
+            document.getElementById('mobileDepositModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function simulateCheckCapture(side) {
+            showToast(`Capturing ${side} of check...`, 'info');
+            setTimeout(() => {
+                const preview = document.getElementById(`check${side.charAt(0).toUpperCase() + side.slice(1)}Preview`);
+                preview.innerHTML = '<i class="fas fa-check-circle text-green-600 text-4xl"></i>';
+                preview.classList.add('bg-green-100');
+                showToast(`${side.charAt(0).toUpperCase() + side.slice(1)} of check captured!`, 'success');
+            }, 1500);
+        }
+
+        function handleMobileDeposit() {
+            const amount = parseFloat(document.getElementById('checkAmount').value);
+            const account = document.getElementById('mobileDepositAccount').value;
+            
+            if (!amount || amount <= 0) {
+                showToast('Please enter check amount', 'error');
+                return;
+            }
+            
+            BankApp.accounts[account].balance += amount;
+            BankApp.accounts[account].available += amount;
+            
+            const tx = {
+                id: Date.now(),
+                date: new Date(),
+                name: 'Mobile Check Deposit',
+                category: 'Deposit',
+                amount: amount,
+                type: 'credit',
+                icon: 'camera',
+                color: 'blue',
+                status: 'completed',
+                from: 'Check Deposit',
+                to: BankApp.accounts[account].name,
+                memo: 'Mobile Deposit'
+            };
+            
+            BankApp.transactions.unshift(tx);
+            
+            updateDashboard();
+            renderTransactions();
+            closeMobileDepositModal();
+            showReceipt(tx);
+            
+            showToast(`Check deposit of ${formatCurrency(amount)} submitted`, 'success');
+            document.getElementById('checkAmount').value = '';
+            
+            // Reset previews
+            ['Front', 'Back'].forEach(side => {
+                const preview = document.getElementById(`check${side}Preview`);
+                preview.innerHTML = '<i class="fas fa-plus text-slate-400 text-3xl"></i>';
+                preview.classList.remove('bg-green-100');
+            });
+        }
+
+        function openCardModal() {
+            document.getElementById('cardModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            renderCardActivity();
+        }
+
+        function closeCardModal() {
+            document.getElementById('cardModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderCardActivity() {
+            const container = document.getElementById('cardActivityList');
+            const recentCardTx = BankApp.transactions.slice(0, 3);
+            
+            container.innerHTML = recentCardTx.map(tx => `
+                <div class="flex justify-between items-center p-3 bg-white rounded-lg border border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-${tx.color}-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-${tx.icon} text-${tx.color}-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900 text-sm">${tx.name}</p>
+                            <p class="text-xs text-slate-500">${formatDate(tx.date)}</p>
+                        </div>
+                    </div>
+                    <span class="font-bold ${tx.type === 'credit' ? 'text-green-600' : 'text-slate-900'}">
+                        ${tx.type === 'credit' ? '+' : ''}${formatCurrency(tx.amount)}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function toggleCardFreeze() {
+            BankApp.cardFrozen = !BankApp.cardFrozen;
+            const btn = document.getElementById('freezeCardBtn');
+            if (BankApp.cardFrozen) {
+                btn.innerHTML = '<i class="fas fa-snowflake text-2xl text-blue-600"></i><span class="font-bold text-slate-700">Unfreeze Card</span>';
+                btn.classList.add('bg-blue-50', 'border-blue-500');
+                showToast('Card has been frozen', 'warning');
+            } else {
+                btn.innerHTML = '<i class="fas fa-snowflake text-2xl text-blue-600"></i><span class="font-bold text-slate-700">Freeze Card</span>';
+                btn.classList.remove('bg-blue-50', 'border-blue-500');
+                showToast('Card has been unfrozen', 'success');
+            }
+        }
+
+        function showCardDetails() {
+            const cardNumber = document.getElementById('virtualCardNumber');
+            const current = cardNumber.textContent;
+            if (current.includes('•')) {
+                cardNumber.textContent = '4532  8912  3456  8901';
+                showToast('Card details revealed', 'info');
+            } else {
+                cardNumber.textContent = '4532  ••••  ••••  8901';
+            }
+        }
+
+        function requestNewCard() {
+            showToast('New card request submitted', 'success');
+            setTimeout(() => {
+                showToast('Your new card will arrive in 5-7 business days', 'info');
+            }, 2000);
+        }
+
+        function setSpendingLimit() {
+            const limit = prompt('Enter daily spending limit:', '5000');
+            if (limit) {
+                showToast(`Daily spending limit set to ${formatCurrency(parseFloat(limit))}`, 'success');
+            }
+        }
+
+        function showSpendingInsights() {
+            const insights = document.getElementById('spendingInsights');
+            insights.classList.remove('hidden');
+            insights.scrollIntoView({ behavior: 'smooth' });
+            
+            // Initialize spending chart
+            if (!spendingChart) {
+                const ctx = document.getElementById('spendingChart').getContext('2d');
+                spendingChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: BankApp.spendingCategories.map(c => c.name),
+                        datasets: [{
+                            data: BankApp.spendingCategories.map(c => c.amount),
+                            backgroundColor: BankApp.spendingCategories.map(c => c.color),
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+            
+            // Render category list
+            const total = BankApp.spendingCategories.reduce((sum, c) => sum + c.amount, 0);
+            const categoriesHtml = BankApp.spendingCategories.map(cat => {
+                const percentage = ((cat.amount / total) * 100).toFixed(1);
+                return `
+                    <div class="spending-category flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: ${cat.color}20">
+                            <i class="fas fa-${cat.icon}" style="color: ${cat.color}"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between mb-1">
+                                <span class="font-bold text-slate-900">${cat.name}</span>
+                                <span class="font-bold text-slate-900">${formatCurrency(cat.amount)}</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="progress-bar h-2 rounded-full" style="width: ${percentage}%; background-color: ${cat.color}"></div>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">${percentage}% of total</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('spendingCategories').innerHTML = `
+                <div class="mb-4">
+                    <p class="text-sm text-slate-500">Total Spending</p>
+                    <p class="text-3xl font-bold text-slate-900">${formatCurrency(total)}</p>
+                </div>
+                ${categoriesHtml}
+            `;
+        }
+
+        function hideSpendingInsights() {
+            document.getElementById('spendingInsights').classList.add('hidden');
+        }
+
+        function showReceipt(transaction) {
+            BankApp.currentReceipt = transaction;
+            const modal = document.getElementById('receiptModal');
+            const isCredit = transaction.type === 'credit';
+            
+            document.getElementById('receiptId').textContent = `#TXN-${Date.now().toString().slice(-10)}`;
+            document.getElementById('receiptDate').textContent = transaction.date.toLocaleString('en-US', { 
+                month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+            }) + ' EST';
+            document.getElementById('receiptAmount').textContent = formatCurrency(Math.abs(transaction.amount));
+            document.getElementById('receiptAmount').className = `text-5xl font-bold amount-display ${isCredit ? 'text-green-600' : 'gold-text'}`;
+            document.getElementById('receiptFrom').textContent = transaction.from || BankApp.accounts.checking.name;
+            document.getElementById('receiptTo').textContent = transaction.to || transaction.name;
+            document.getElementById('receiptToDetail').textContent = transaction.toDetail || '';
+            document.getElementById('receiptMemo').textContent = transaction.memo || 'General Transfer';
+            document.getElementById('receiptBarcode').textContent = generateBarcode();
+            
+            const watermark = document.getElementById('receiptWatermark');
+            watermark.textContent = isCredit ? 'RECEIVED' : 'SENT';
+            watermark.style.color = isCredit ? 'rgba(16, 185, 129, 0.08)' : 'rgba(245, 158, 11, 0.08)';
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function shareReceipt() {
+            showToast('Receipt shared successfully!', 'success');
+        }
+
+        function generateBarcode() {
+            let barcode = '';
+            for (let i = 0; i < 30; i++) {
+                barcode += Math.random() > 0.5 ? '|' : ' ';
+            }
+            return barcode;
+        }
+
+        function downloadReceipt() {
+            showToast('Receipt downloaded successfully!', 'success');
+            setTimeout(() => closeReceiptModal(), 1000);
+        }
+
+        function selectAccount(type) {
+            showToast(`${BankApp.accounts[type].name} selected`, 'info');
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = BankApp.notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notificationBadge');
+            if (!badge) return;
+            if (unreadCount > 0) {
+                badge.style.display = 'block';
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            } else {
+                badge.style.display = 'none';
+            }
+            badge.title = `${unreadCount} unread notification${unreadCount === 1 ? '' : 's'}`;
+        }
+
+        function addNotification(title, message, type = 'info', meta = {}) {
+            BankApp.notifications.unshift({
+                id: Date.now(),
+                title,
+                message,
+                time: 'Just now',
+                read: false,
+                type,
+                ...meta
+            });
+            if (BankApp.notifications.length > 30) BankApp.notifications.pop();
+            updateNotificationBadge();
+        }
+
+        function showNotifications() {
+            updateNotificationBadge();
+            const modal = document.createElement('div');
+            modal.id = 'notificationsModal';
+            modal.className = 'fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-start justify-end p-4 pt-20';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+            
+            const unreadCount = BankApp.notifications.filter(n => !n.read).length;
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md modal-enter max-h-[80vh] overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900 text-lg">Notifications ${unreadCount > 0 ? `<span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">${unreadCount}</span>` : ''}</h3>
+                        <button onclick="this.closest('#notificationsModal').remove()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-y-auto max-h-[60vh]">
+                        ${BankApp.notifications.map(n => `
+                            <div class="p-4 border-b border-slate-100 hover:bg-slate-50 ${n.read ? '' : 'bg-blue-50'} cursor-pointer" onclick="openNotificationDetail(${n.id})">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center ${n.type === 'success' ? 'bg-green-100 text-green-600' : n.type === 'warning' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}">
+                                        <i class="fas fa-${n.type === 'success' ? 'check' : n.type === 'warning' ? 'exclamation' : 'info'}"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-bold text-slate-900 text-sm">${n.title}</p>
+                                        <p class="text-sm text-slate-600 mt-1">${n.message}</p>
+                                        <p class="text-xs text-slate-400 mt-2">${n.time}</p>
+                                        ${n.txId ? `<button onclick="event.stopPropagation(); openNotificationDetail(${n.id});" class="mt-2 text-xs font-semibold text-blue-700 hover:underline">View receipt</button>` : ''}
+                                    </div>
+                                    ${!n.read ? '<span class="w-2 h-2 bg-blue-500 rounded-full"></span>' : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="p-4 border-t border-slate-200 bg-slate-50">
+                        <button onclick="markAllNotificationsRead()" class="w-full text-center text-blue-900 font-bold text-sm hover:underline">
+                            Mark all as read
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function markNotificationRead(id) {
+            const notif = BankApp.notifications.find(n => n.id === id);
+            if (notif) {
+                notif.read = true;
+                updateNotificationBadge();
+                showToast('Notification marked as read', 'info');
+            }
+        }
+
+        function openNotificationDetail(id) {
+            const notif = BankApp.notifications.find(n => n.id === id);
+            if (!notif) return;
+            notif.read = true;
+            updateNotificationBadge();
+            if (notif.txId) {
+                const tx = BankApp.transactions.find(t => t.id === notif.txId);
+                if (tx) {
+                    showReceipt(tx);
+                    const modal = document.getElementById('notificationsModal');
+                    if (modal) modal.remove();
+                    return;
+                }
+            }
+            showToast(`${notif.title}: ${notif.message}`, notif.type || 'info');
+            const modal = document.getElementById('notificationsModal');
+            if (modal) modal.remove();
+        }
+
+        function markAllNotificationsRead() {
+            BankApp.notifications.forEach(n => n.read = true);
+            showToast('All notifications marked as read', 'success');
+            updateNotificationBadge();
+        }
+
+        window.onclick = function(event) {
+            if (event.target.id === 'loginModal') toggleLogin();
+            if (event.target.id === 'addMoneyModal') closeAddMoneyModal();
+            if (event.target.id === 'transferModal') closeTransferModal();
+            if (event.target.id === 'receiptModal') closeReceiptModal();
+            if (event.target.id === 'payBillsModal') closePayBillsModal();
+            if (event.target.id === 'mobileDepositModal') closeMobileDepositModal();
+            if (event.target.id === 'cardModal') closeCardModal();
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) nav.classList.add('shadow-md');
+            else nav.classList.remove('shadow-md');
+        });
+    </script>
+</body>
+</html>
