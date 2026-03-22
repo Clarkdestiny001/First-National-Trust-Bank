@@ -276,6 +276,19 @@ function addLoginHistory() {
             document.getElementById('rememberMe').checked = true;
         }
 
+function togglePasswordVisibility(fieldId, btnId) {
+    const field = document.getElementById(fieldId);
+    const btn = document.getElementById(btnId);
+    if (!field || !btn) return;
+    if (field.type === 'password') {
+        field.type = 'text';
+        btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+        field.type = 'password';
+        btn.innerHTML = '<i class="fas fa-eye"></i>';
+    }
+}
+
 function openSettings() {
     document.getElementById('settingsModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';

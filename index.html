@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First National Trust Bank | Premier Online Banking</title>
+    <title>NovaPay UI | Finance Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -174,8 +174,8 @@
     </div>
 
     <!-- Login Modal -->
-    <div id="loginModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+    <div id="loginModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-y-auto max-h-[90vh]">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
             <button onclick="toggleLogin()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
                 <i class="fas fa-times"></i>
@@ -246,8 +246,8 @@
     </div>
 
     <!-- Enroll Modal -->
-    <div id="enrollModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+    <div id="enrollModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-y-auto max-h-[90vh]">
             <button onclick="closeEnrollModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
                 <i class="fas fa-times"></i>
             </button>
@@ -1212,3 +1212,8 @@
         </div>
     </footer>
 </body></html>
+<body>
+
+<div class="bg-yellow-100 text-yellow-800 p-2 text-center text-sm">
+⚠️ Demo Project – Not a real banking service
+</div>
