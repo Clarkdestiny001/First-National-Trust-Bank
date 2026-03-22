@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First National Trust Bank | Premier Online Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="js/app.js"></script>
+    
+</head>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-3"></div>
+    <div id="loginScreenOverlay" class="hidden fixed inset-0 z-[9998] bg-slate-900/35 backdrop-blur-sm"></div>
+
+    <!-- Security Header -->
+    <div class="bg-slate-900 text-white text-xs py-2.5 px-4 text-center relative overflow-hidden">
+        <div class="flex items-center justify-center gap-3">
+            <span class="w-2 h-2 bg-green-400 rounded-full pulse-ring"></span>
+            <span class="font-medium tracking-wide">SECURE CONNECTION • 256-BIT TLS ENCRYPTION ACTIVE</span>
+            <span class="hidden md:inline text-slate-400">|</span>
+            <span class="hidden md:inline text-slate-400">FDIC INSURED #00125678</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 glass-effect border-b border-gray-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4 cursor-pointer group" onclick="showDashboard()">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:shadow-xl smooth-transition">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900 text-xl tracking-tight">First National</div>
+                        <div class="text-xs text-slate-500 font-semibold tracking-widest uppercase">Trust Bank</div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#" onclick="showServiceSection('personal')" id="navPersonal" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Personal</a>
+                    <a href="#" onclick="showServiceSection('business')" id="navBusiness" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Business</a>
+                    <a href="#" onclick="showServiceSection('wealth')" id="navWealth" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Wealth</a>
+                    <a href="#" onclick="showServiceSection('support')" id="navSupport" class="nav-link text-slate-600 hover:text-blue-900 font-medium smooth-transition text-sm uppercase tracking-wide">Support</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button class="hidden md:flex items-center gap-2 text-slate-600 hover:text-blue-900 smooth-transition px-4 py-2 rounded-full hover:bg-slate-100">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="relative p-2 text-slate-600 hover:text-blue-900 smooth-transition rounded-full hover:bg-slate-100" onclick="showNotifications()">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationBadge" class="absolute top-0 right-0 min-w-[16px] h-4 px-1 text-[10px] leading-4 text-white bg-red-500 rounded-full border-2 border-white text-center hidden">0</span>
+                    </button>
+                    <button class="hidden md:flex items-center gap-2 text-slate-600 hover:text-blue-900 smooth-transition px-4 py-2 rounded-full hover:bg-slate-100" onclick="openSettings()">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                    <button id="authButton" onclick="toggleLogin()" class="bg-slate-900 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-slate-800 smooth-transition shadow-lg hover:shadow-xl text-sm">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="hidden fixed inset-0 z-[9998] bg-slate-900/70 backdrop-blur-sm flex items-start md:items-center justify-center p-2 md:p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-[95vw] md:max-w-2xl p-4 md:p-6 relative max-h-[95vh] overflow-y-auto">
+            <button onclick="closeSettings()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 flex items-center justify-center text-slate-500 smooth-transition"><i class="fas fa-times"></i></button>
+            <div class="mb-4">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <h3 class="mt-3 text-2xl font-bold text-slate-900 dark:text-white">Account Settings</h3>
+                        <p class="text-slate-500 dark:text-slate-300 text-sm">Configure your profile, security, and access settings.</p>
+                    </div>
+                    <span class="text-[11px] px-2 py-1 bg-slate-100 rounded-full text-slate-600">Mobile friendly</span>
+                </div>
+                <p class="text-slate-500 dark:text-slate-300 text-xs mt-1">Swipe up to scroll through settings on phone.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button id="settingsTabAccount" onclick="showSettingsTab('account')" class="settings-tab-btn bg-blue-600 text-white rounded-xl px-3 py-2 font-semibold">Account</button>
+                <button id="settingsTabSecurity" onclick="showSettingsTab('security')" class="settings-tab-btn bg-slate-100 text-slate-700 rounded-xl px-3 py-2 font-semibold">Security</button>
+            </div>
+
+            <div id="settingsPreview" class="mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                    <button onclick="openFastTransfers()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Fast transfers</p>
+                        <p class="text-slate-100/90">Move funds with one-touch bank transfers.</p>
+                    </button>
+                    <button onclick="openCardControls()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-slate-800 via-slate-700 to-indigo-700 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Card controls</p>
+                        <p class="text-slate-100/90">Freeze/unfreeze cards instantly.</p>
+                    </button>
+                    <button onclick="openSecurityAlerts()" class="text-left p-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-r from-emerald-600 via-cyan-600 to-sky-600 text-white hover:scale-[1.01] smooth-transition">
+                        <p class="font-semibold">Security alerts</p>
+                        <p class="text-slate-100/90">Real-time notifications for sign-ins.</p>
+                    </button>
+                </div>
+            </div>
+
+            <div id="settingsAccount" class="settings-panel">
+                <form onsubmit="saveAccountSettings(event)" class="space-y-3">
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Full Name</label>
+                        <input id="settingsName" type="text" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Alex Morgan" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Email</label>
+                        <input id="settingsEmail" type="email" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">New password</label>
+                        <input id="settingsPassword" type="password" minlength="6" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="At least 6 chars">
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Confirm password</label>
+                        <input id="settingsPasswordConfirm" type="password" class="w-full mt-1 p-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="Confirm new password">
+                    </div>
+                    <button class="w-full px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700" type="submit">Save Account</button>
+                </form>
+            </div>
+
+            <div id="settingsSecurity" class="settings-panel hidden">
+                <div class="rounded-3xl border border-blue-200/30 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 p-4 text-white shadow-2xl">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-blue-200">Security Hub</p>
+                            <h4 class="mt-1 text-lg font-bold">Protect your account</h4>
+                            <p class="text-sm text-blue-100/90 mt-1">Control authentication, devices, and alerts in one place.</p>
+                        </div>
+                        <span class="px-2 py-1 rounded-full bg-green-500/20 text-green-200 text-[11px] font-semibold">High Trust</span>
+                    </div>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">2FA</p>
+                            <p class="mt-1 text-sm font-semibold">Status: <span id="twoFactorStatus">Enabled</span></p>
+                            <button onclick="toggleTwoFactor()" class="mt-2 w-full py-2 rounded-xl bg-indigo-500/90 hover:bg-indigo-400 text-white text-xs font-semibold">Toggle 2FA</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Cards</p>
+                            <p class="mt-1 text-sm font-semibold">Card freeze state: <span id="lockCardButtonLabel">Active</span></p>
+                            <button onclick="lockOrUnlockCard()" class="mt-2 w-full py-2 rounded-xl bg-red-500/90 hover:bg-red-400 text-white text-xs font-semibold">Freeze/Unfreeze Card</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3 md:col-span-1">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Devices</p>
+                            <p class="mt-1 text-sm font-semibold">Trusted devices: <span id="recognizedDeviceCount">0</span></p>
+                            <button onclick="viewTrustedDevices()" class="mt-2 w-full py-2 rounded-xl bg-slate-100 text-slate-900 text-xs font-semibold">View Trusted Devices</button>
+                        </div>
+                        <div class="rounded-2xl bg-white/10 border border-white/15 p-3 md:col-span-1">
+                            <p class="uppercase tracking-[0.12em] text-blue-100 text-[10px] font-semibold">Alerts</p>
+                            <div class="mt-1 text-sm text-blue-100">
+                                <p><span id="emailAlertBadge" class="font-semibold">On</span> Email</p>
+                                <p><span id="smsAlertBadge" class="font-semibold">On</span> SMS</p>
+                                <p><span id="pushAlertBadge" class="font-semibold">On</span> Push</p>
+                            </div>
+                            <div class="mt-2 grid grid-cols-1 gap-2">
+                                <button onclick="toggleEmailAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle Email Alerts</button>
+                                <button onclick="toggleSmsAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle SMS Alerts</button>
+                                <button onclick="togglePushAlerts()" class="w-full py-2 rounded-xl bg-blue-500 text-white text-xs font-semibold">Toggle Push Alerts</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-t border-white/20 pt-3 text-xs text-blue-100">Updates are saved instantly and encrypted in your account.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+            <button onclick="toggleLogin()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8 pt-4">
+                <div class="flex justify-center mb-4 gap-2">
+                    <span class="secure-pill"><i class="fas fa-shield-alt"></i> 2FA Enabled</span>
+                    <span class="secure-pill"><i class="fas fa-lock"></i> 256-bit SSL</span>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                    <i class="fas fa-user-lock text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Secure Login</h2>
+                <p class="text-slate-500">Protected banking with real-time authentication</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-5" novalidate>
+                <div class="space-y-1">
+                    <label class="block text-sm font-semibold text-slate-700 uppercase tracking-wider">User ID</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="userId" class="w-full pl-12 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none smooth-transition font-medium text-slate-900" placeholder="Enter User ID" required>
+                    </div>
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="block text-sm font-semibold text-slate-700 uppercase tracking-wider">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="password" id="password" minlength="6" class="w-full pl-12 pr-12 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none smooth-transition font-medium text-slate-900" placeholder="Enter Password" required>
+                        <button type="button" id="togglePassword" onclick="togglePasswordVisibility('password', 'togglePassword')" class="absolute right-3 top-3 text-slate-400 hover:text-slate-700"><i class="fas fa-eye"></i></button>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Use 8+ characters with at least one number and one letter.</p>
+                </div>
+
+    
+
+                <div class="text-left text-xs text-green-700 font-semibold" id="loginSecurityBadge">
+                    <i class="fas fa-lock"></i> Secure login (2FA available)
+                </div>
+                <p id="loginError" class="text-xs text-red-600 font-medium hidden"></p>
+
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300">
+                        <span class="text-slate-600 font-medium">Remember me</span>
+                    </label>
+                    <a href="#" class="text-blue-900 font-bold hover:underline">Forgot Password?</a>
+                </div>
+
+                <button type="submit" id="loginSubmitBtn" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-fingerprint"></i>
+                    Sign In Securely
+                </button>
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-slate-200 text-center">
+                <p class="text-sm text-slate-600 mb-4">
+                    New to online banking? <a href="#" class="text-blue-900 font-bold hover:underline" onclick="openEnrollModal(); return false;">Enroll now</a>
+                </p>
+                <div class="flex items-center justify-center gap-3 text-xs text-slate-500 bg-slate-50 py-3 rounded-lg">
+                    <i class="fas fa-lock text-green-600"></i>
+                    <span class="font-semibold">Secured by 256-bit SSL Encryption</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enroll Modal -->
+    <div id="enrollModal" class="hidden fixed inset-0 z-[9999] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 modal-enter relative overflow-hidden">
+            <button onclick="closeEnrollModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-6 pt-2">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-user-plus text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900">Enroll in Online Banking</h3>
+                <p class="text-slate-500 text-sm">Create your secure banking profile in under 2 minutes.</p>
+            </div>
+            <form onsubmit="handleEnroll(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Full Name</label>
+                    <input id="enrollName" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Jane Doe" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Email</label>
+                    <input id="enrollEmail" type="email" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="jane@example.com" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Create User ID</label>
+                    <input id="enrollUserId" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="jane.doe" required>
+                </div>
+                <div>
+                    <label class="text-xs uppercase tracking-wider font-semibold text-slate-600">Create Password</label>
+                    <div class="relative">
+                        <input id="enrollPassword" type="password" class="w-full px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500" placeholder="Min 6 chars" minlength="6" required>
+                        <button type="button" onclick="togglePasswordVisibility('enrollPassword', 'enrollTogglePassword')" id="enrollTogglePassword" class="absolute right-2 top-2 text-slate-400 hover:text-slate-700"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <p id="enrollError" class="text-xs text-red-600 hidden"></p>
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-3 rounded-xl font-bold">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Money Modal -->
+    <div id="addMoneyModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative">
+            <button onclick="closeAddMoneyModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-plus-circle text-green-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Add Funds</h2>
+                <p class="text-slate-500">Deposit money into your account</p>
+            </div>
+
+            <form onsubmit="handleAddMoney(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Select Account</label>
+                    <select id="depositAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="depositAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">From</label>
+                    <select class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition text-slate-700">
+                        <option>🏦 External Bank Account</option>
+                        <option>💸 Wire Transfer</option>
+                        <option>📱 Mobile Check Deposit</option>
+                        <option>💵 Cash Deposit</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button type="button" onclick="quickAdd(1000000)" class="py-3 px-4 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold text-slate-700 smooth-transition text-sm">
+                        +$1M
+                    </button>
+                    <button type="button" onclick="quickAdd(10000000)" class="py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold hover:shadow-lg smooth-transition text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-bolt"></i>
+                        +$10M
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02]">
+                    Confirm Deposit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-2 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-5 modal-enter relative my-4 max-h-[85vh] overflow-y-auto">
+            <button onclick="closeTransferModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exchange-alt text-blue-900 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Transfer Funds</h2>
+                <p class="text-slate-500">Move money between accounts or external banks</p>
+            </div>
+
+            <form onsubmit="handleTransfer(event)" class="space-y-6">
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200">
+                    <label class="block text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wider">From Account</label>
+                    <select id="transferFrom" onchange="updateTransferOptions()" class="w-full p-3 bg-white border border-slate-300 rounded-xl focus:border-blue-500 outline-none font-semibold text-slate-900">
+                        <option value="checking">💳 Checking •••• 4521 ($<span id="fromCheckingBalance">12,450.00</span>)</option>
+                        <option value="savings">🏦 Savings •••• 8823 ($<span id="fromSavingsBalance">34,834.52</span>)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-center -my-2 relative z-10">
+                    <div class="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white shadow-lg">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-200">
+                    <label class="block text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wider">To Account</label>
+                    <select id="transferTo" onchange="updateTransferOptions()" class="w-full p-3 bg-white border border-slate-300 rounded-xl focus:border-blue-500 outline-none font-semibold text-slate-900 mb-4">
+                        <optgroup label="Your Accounts">
+                            <option value="savings">🏦 Savings •••• 8823</option>
+                            <option value="checking">💳 Checking •••• 4521</option>
+                        </optgroup>
+                        <optgroup label="External Banks">
+                            <option value="chase">🏛️ Chase Bank</option>
+                            <option value="bofa">🏛️ Bank of America</option>
+                            <option value="wells">🏛️ Wells Fargo</option>
+                            <option value="citi">🏛️ Citibank</option>
+                            <option value="usbank">🏛️ U.S. Bank</option>
+                            <option value="pnc">🏛️ PNC Bank</option>
+                            <option value="capitalone">🏛️ Capital One</option>
+                            <option value="td">🏛️ TD Bank</option>
+                            <option value="schwab">🏛️ Charles Schwab</option>
+                            <option value="other">🏛️ Other Bank</option>
+                        </optgroup>
+                    </select>
+
+                    <div id="externalBankDetails" class="hidden space-y-4 pt-4 border-t border-slate-200">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Holder Name</label>
+                                <input type="text" id="externalHolderName" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none" placeholder="Full Name">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Number</label>
+                                <input type="text" id="externalAccountNumber" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none font-mono" placeholder="•••• •••• •••• ••••">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Routing Number</label>
+                                <input type="text" id="externalRoutingNumber" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none font-mono" placeholder="•••••••••">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1 uppercase">Account Type</label>
+                                <select id="externalAccountType" class="w-full p-3 border border-slate-300 rounded-lg text-sm focus:border-blue-500 outline-none">
+                                    <option value="checking">Checking</option>
+                                    <option value="savings">Savings</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-2xl font-bold">$</span>
+                        <input type="number" id="transferAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-3xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-2 font-medium">Available: <span class="text-slate-900 font-bold" id="availableBalance">$12,450.00</span></p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Memo (Optional)</label>
+                    <input type="text" id="transferMemo" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none font-medium" placeholder="What's this transfer for?">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-900 to-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-3">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Transfer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pay Bills Modal -->
+    <div id="payBillsModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative my-8">
+            <button onclick="closePayBillsModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-file-invoice-dollar text-purple-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Pay Bills</h2>
+                <p class="text-slate-500">Schedule payments to your payees</p>
+            </div>
+
+            <form onsubmit="handlePayBill(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Payee</label>
+                    <select id="billPayee" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="electric">⚡ Electric Company</option>
+                        <option value="internet">🌐 Internet Provider</option>
+                        <option value="water">💧 Water Utility</option>
+                        <option value="rent">🏠 Rent/Mortgage</option>
+                        <option value="insurance">🛡️ Insurance</option>
+                        <option value="credit">💳 Credit Card</option>
+                        <option value="custom">➕ Add New Payee</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">From Account</label>
+                    <select id="billFromAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="billAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Payment Date</label>
+                    <input type="date" id="billDate" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none font-semibold text-slate-700" required>
+                </div>
+
+                <div class="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                    <i class="fas fa-info-circle text-amber-600 text-xl"></i>
+                    <p class="text-sm text-amber-800">Payments scheduled for today will be processed immediately.</p>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    Schedule Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Check Deposit Modal -->
+    <div id="mobileDepositModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 modal-enter relative">
+            <button onclick="closeMobileDepositModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-camera text-blue-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Mobile Check Deposit</h2>
+                <p class="text-slate-500">Take photos of your check to deposit</p>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Deposit To</label>
+                    <select id="mobileDepositAccount" class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none smooth-transition font-semibold text-slate-700">
+                        <option value="checking">💳 Checking •••• 4521</option>
+                        <option value="savings">🏦 Savings •••• 8823</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 smooth-transition cursor-pointer" onclick="simulateCheckCapture('front')">
+                        <div id="checkFrontPreview" class="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center mb-3">
+                            <i class="fas fa-plus text-slate-400 text-3xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Front of Check</p>
+                        <p class="text-xs text-slate-500 mt-1">Tap to capture</p>
+                    </div>
+                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-6 text-center hover:border-blue-500 hover:bg-blue-50 smooth-transition cursor-pointer" onclick="simulateCheckCapture('back')">
+                        <div id="checkBackPreview" class="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center mb-3">
+                            <i class="fas fa-plus text-slate-400 text-3xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Back of Check</p>
+                        <p class="text-xs text-slate-500 mt-1">Tap to capture</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2 uppercase tracking-wider">Check Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-4 text-slate-400 text-xl font-bold">$</span>
+                        <input type="number" id="checkAmount" step="0.01" class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none text-2xl font-bold text-slate-900" placeholder="0.00">
+                    </div>
+                </div>
+
+                <button onclick="handleMobileDeposit()" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl smooth-transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <i class="fas fa-check-circle"></i>
+                    Submit Deposit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Management Modal -->
+    <div id="cardModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-8 modal-enter relative my-8">
+            <button onclick="closeCardModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 smooth-transition">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-gradient-to-br from-slate-100 to-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-credit-card text-slate-700 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900">Card Management</h2>
+                <p class="text-slate-500">Manage your debit and credit cards</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Virtual Card Preview -->
+                <div class="credit-card w-full rounded-2xl p-6 text-white relative overflow-hidden mb-6">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="text-2xl font-bold italic serif tracking-wider">VISA</div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm">Virtual</span>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm opacity-70 mb-1 uppercase tracking-widest">Card Number</div>
+                        <div class="text-2xl font-mono tracking-widest" id="virtualCardNumber">4532  ••••  ••••  8901</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Card Holder</div>
+                            <div class="text-lg font-bold tracking-widest uppercase" id="virtualCardHolder">Alexander Morgan</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Expires</div>
+                            <div class="text-lg font-bold" id="virtualCardExpiry">09/28</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="toggleCardFreeze()" id="freezeCardBtn" class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-snowflake text-2xl text-blue-600"></i>
+                        <span class="font-bold text-slate-700">Freeze Card</span>
+                    </button>
+                    <button onclick="showCardDetails()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-eye text-2xl text-green-600"></i>
+                        <span class="font-bold text-slate-700">Show Details</span>
+                    </button>
+                    <button onclick="requestNewCard()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-sync-alt text-2xl text-purple-600"></i>
+                        <span class="font-bold text-slate-700">Replace Card</span>
+                    </button>
+                    <button onclick="setSpendingLimit()" class="p-4 border-2 border-slate-200 rounded-xl hover:border-amber-500 hover:bg-amber-50 smooth-transition flex flex-col items-center gap-2">
+                        <i class="fas fa-sliders-h text-2xl text-amber-600"></i>
+                        <span class="font-bold text-slate-700">Spending Limits</span>
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-slate-900 mb-3">Recent Card Activity</h4>
+                    <div class="space-y-3" id="cardActivityList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg modal-enter relative my-8">
+            <div id="receiptContent" class="receipt-paper p-8 rounded-3xl relative overflow-hidden">
+                <div class="watermark" id="receiptWatermark">PAID</div>
+                
+                <div class="stamp" id="receiptStamp">
+                    <div class="stamp-text">
+                        <i class="fas fa-check-circle text-2xl mb-1 block"></i>
+                        COMPLETED
+                    </div>
+                </div>
+
+                <div class="text-center mb-6 relative z-10">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-university text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 serif">First National Trust Bank</h3>
+                    <p class="text-sm text-slate-500 font-medium">Official Transaction Receipt</p>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="space-y-4 relative z-10">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Receipt ID</span>
+                        <span class="font-mono font-bold text-slate-900" id="receiptId">#TXN-20260317-001</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Date & Time</span>
+                        <span class="font-bold text-slate-900 text-right" id="receiptDate">Mar 17, 2026<br>04:50 PM EST</span>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 font-medium text-sm uppercase tracking-wider">Status</span>
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-bold">
+                            <i class="fas fa-check-circle"></i>
+                            CONFIRMED
+                        </span>
+                    </div>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="text-center py-4 relative z-10">
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-widest mb-1">Amount</p>
+                    <h2 class="text-5xl font-bold text-slate-900 amount-display gold-text" id="receiptAmount">$10,000,000.00</h2>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="space-y-4 relative z-10">
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">From</p>
+                        <p class="font-bold text-slate-900 text-lg" id="receiptFrom">Checking •••• 4521</p>
+                        <p class="text-sm text-slate-600">First National Trust Bank</p>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <i class="fas fa-arrow-down text-slate-300 text-2xl"></i>
+                    </div>
+
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">To</p>
+                        <p class="font-bold text-slate-900 text-lg" id="receiptTo">Chase Bank</p>
+                        <p class="text-sm text-slate-600" id="receiptToDetail">Account •••• 9876</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl mt-4">
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Memo</p>
+                        <p class="text-slate-700 font-medium" id="receiptMemo">Investment Transfer</p>
+                    </div>
+                </div>
+
+                <div class="receipt-line"></div>
+
+                <div class="barcode opacity-30"></div>
+                <p class="text-center text-xs text-slate-400 font-mono mt-2" id="receiptBarcode">|| | ||| | || ||| | || | ||| || | |||</p>
+
+                <div class="text-center mt-6 relative z-10">
+                    <p class="text-xs text-slate-400 mb-2">This is an official receipt of First National Trust Bank</p>
+                    <p class="text-xs text-slate-500">Questions? Call 1-800-FNTB-HELP</p>
+                    <div class="mt-4 flex justify-center gap-2">
+                        <i class="fas fa-shield-alt text-green-500"></i>
+                        <span class="text-xs font-bold text-slate-600">SECURE VERIFIED</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-slate-50 rounded-b-3xl flex gap-3">
+                <button onclick="downloadReceipt()" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold hover:shadow-lg smooth-transition flex items-center justify-center gap-2">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+                <button onclick="shareReceipt()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 smooth-transition flex items-center justify-center gap-2">
+                    <i class="fas fa-share-alt"></i>
+                    Share
+                </button>
+                <button onclick="closeReceiptModal()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-50 smooth-transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <section class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden min-h-[80vh] flex items-center">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 w-full">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="slide-in">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-5 py-2.5 mb-8 border border-white/20">
+                            <span class="w-2 h-2 bg-green-400 rounded-full pulse-ring"></span>
+                            <span class="text-sm font-semibold tracking-wide">Now offering 5.25% APY on Premium Savings</span>
+                        </div>
+                        <h1 class="text-5xl lg:text-7xl font-bold mb-8 leading-tight serif">
+                            Wealth management <br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-300">reimagined</span>
+                        </h1>
+                        <p class="text-xl text-blue-100 mb-10 leading-relaxed max-w-lg">
+                            Experience institutional-grade banking with personal attention. Join over 2 million clients managing $50B+ in assets.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="toggleLogin()" class="bg-white text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl smooth-transition transform hover:scale-105 flex items-center gap-2">
+                                Get Started
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 smooth-transition backdrop-blur-sm">
+                                View Rates
+                            </button>
+                        <div class="mt-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-blue-100 border border-white/20">
+                            <i class="fas fa-lock text-green-300"></i>
+                            Real-time fraud detection and 24/7 protection
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative hidden lg:block perspective-1000">
+                        <div class="credit-card w-full max-w-md mx-auto rounded-3xl p-8 text-white shadow-2xl transform rotate-y-12 hover:rotate-y-0 smooth-transition cursor-pointer relative z-20">
+                            <div class="flex justify-between items-start mb-12">
+                                <div class="text-3xl font-bold italic serif tracking-wider">VISA</div>
+                                <i class="fas fa-wifi text-3xl opacity-80"></i>
+                            </div>
+                            <div class="mb-12">
+                                <div class="text-sm opacity-70 mb-2 uppercase tracking-widest font-semibold">Card Number</div>
+                                <div class="text-3xl font-mono tracking-widest drop-shadow-lg">4532  ••••  ••••  8901</div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Card Holder</div>
+                                    <div class="text-xl font-bold tracking-widest uppercase">Alexander Morgan</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs opacity-70 mb-1 uppercase tracking-widest">Expires</div>
+                                    <div class="text-xl font-bold">09/28</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-5 shadow-2xl border border-slate-100 z-30 animate-bounce" style="animation-duration: 3s;">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-arrow-up text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-500 font-semibold uppercase">This Month</div>
+                                    <div class="font-bold text-slate-900 text-xl">+$2,450.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Quick Overview -->
+        <section id="serviceSection" class="bg-white border-t border-slate-200 py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:justify-between items-start gap-4 mb-4">
+                    <div>
+                        <p class="text-xs uppercase text-blue-600 font-bold tracking-widest">Service Centers</p>
+                        <h3 class="text-2xl font-bold text-slate-900">Explore your banking options</h3>
+                        <p class="text-slate-500 max-w-2xl">Select Personal, Business, Wealth, or Support to view tailored products and actions.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="showServiceSection('personal')" id="serviceBtnPersonal" class="px-4 py-2 rounded-full bg-blue-700 text-white text-xs uppercase font-semibold">Personal</button>
+                        <button onclick="showServiceSection('business')" id="serviceBtnBusiness" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Business</button>
+                        <button onclick="showServiceSection('wealth')" id="serviceBtnWealth" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Wealth</button>
+                        <button onclick="showServiceSection('support')" id="serviceBtnSupport" class="px-4 py-2 rounded-full bg-slate-200 text-slate-700 text-xs uppercase font-semibold">Support</button>
+                    </div>
+                </div>
+
+                <div id="serviceContent" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div id="personalContent" class="service-panel bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-blue-100 text-blue-700"><i class="fas fa-user"></i></div><div><p class="text-xs uppercase text-slate-500">Personal Banking</p><h4 class="font-bold text-xl text-slate-800">Everyday Finance</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Premium checking with no monthly fees</li>
+                            <li>High-yield savings with 5.25% APY</li>
+                            <li>Mobile check deposit and instant transfers</li>
+                            <li>Auto-pay and bill reminders</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-blue-600 text-white text-xs font-semibold" onclick="openAddMoneyModal()">Add Money</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Feature coming soon', 'info')">Open Account</button></div>
+                    </div>
+                    <div id="businessContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-indigo-100 text-indigo-700"><i class="fas fa-briefcase"></i></div><div><p class="text-xs uppercase text-slate-500">Business Banking</p><h4 class="font-bold text-xl text-slate-800">Grow Your Company</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Business checking with cash management</li>
+                            <li>Corporate cards with expense controls</li>
+                            <li>Payroll integration and ACH services</li>
+                            <li>Local business advisor access</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-indigo-600 text-white text-xs font-semibold" onclick="openTransferModal()">Send Payment</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Business account setup is quick', 'info')">Start Application</button></div>
+                    </div>
+                    <div id="wealthContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-amber-100 text-amber-700"><i class="fas fa-chart-line"></i></div><div><p class="text-xs uppercase text-slate-500">Wealth Management</p><h4 class="font-bold text-xl text-slate-800">Build Long-Term Growth</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>Portfolio rebalancing and strategy reviews</li>
+                            <li>Retirement planning and trust services</li>
+                            <li>Tax-smart investment options</li>
+                            <li>Direct access to personal advisors</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-amber-600 text-white text-xs font-semibold" onclick="showToast('Wealth advisor contacted', 'success')">Book Consultation</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('Custom plan created', 'info')">View Strategy</button></div>
+                    </div>
+                    <div id="supportContent" class="service-panel hidden bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-3 mb-3"><div class="p-2 rounded-xl bg-emerald-100 text-emerald-700"><i class="fas fa-headset"></i></div><div><p class="text-xs uppercase text-slate-500">Customer Support</p><h4 class="font-bold text-xl text-slate-800">We're Here to Help</h4></div></div>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li>24/7 fraud and account support</li>
+                            <li>Secure messaging with your relationship manager</li>
+                            <li>Lost card lock/unlock in one click</li>
+                            <li>View service ticket status instantly</li>
+                        </ul>
+                        <div class="mt-4 flex flex-wrap gap-2"><button class="px-3 py-2 rounded-full bg-emerald-600 text-white text-xs font-semibold" onclick="showToast('Support chat opened', 'info')">Chat Now</button><button class="px-3 py-2 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold" onclick="showToast('We will call you shortly', 'success')">Request Call</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="hidden min-h-screen bg-slate-50 pb-12">
+        <div class="bg-white border-b border-slate-200 sticky top-16 z-30 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Welcome back, <span id="userNameDisplay" class="text-blue-900">Alexander</span></h2>
+                        <p class="text-slate-500 mt-1 flex items-center gap-2">
+                            <i class="fas fa-clock text-xs"></i>
+                            Last login: <span id="lastLogin">Today at 4:50 PM EST</span>
+                        </p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="openAddMoneyModal()" class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-full font-bold hover:shadow-lg smooth-transition flex items-center gap-2 transform hover:scale-105">
+                            <i class="fas fa-plus"></i>
+                            Add Money
+                        </button>
+                        <button onclick="openTransferModal()" class="px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-full font-bold hover:shadow-lg smooth-transition flex items-center gap-2 transform hover:scale-105">
+                            <i class="fas fa-exchange-alt"></i>
+                            Transfer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <!-- Total Balance Card -->
+            <div class="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <p class="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-2">Total Net Worth</p>
+                            <h3 class="text-6xl font-bold money-counter" id="totalBalance">$47,284.52</h3>
+                            <div class="flex items-center gap-2 mt-3">
+                                <span id="balanceGrowth" class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm font-bold flex items-center gap-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +0.0%
+                                </span>
+                                <span class="text-blue-200 text-sm" id="balanceGrowthPeriod">vs last refresh</span>
+                            <button id="liveModeButton" onclick="toggleLiveMode()" class="px-3 py-1 rounded-full bg-red-500/20 text-red-100 font-semibold">Live: Off</button>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="updateChartPeriod('1M')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">1M</button>
+                            <button onclick="updateChartPeriod('6M')" class="px-4 py-2 bg-white text-blue-900 rounded-full text-sm font-bold shadow-lg">6M</button>
+                            <button onclick="updateChartPeriod('1Y')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">1Y</button>
+                            <button onclick="updateChartPeriod('ALL')" class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-semibold hover:bg-white/20 smooth-transition">ALL</button>
+                        </div>
+                    </div>
+                    <div class="h-40 w-full">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onclick="openPayBillsModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-purple-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-file-invoice-dollar text-purple-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Pay Bills</span>
+                </button>
+                <button onclick="openMobileDepositModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-camera text-blue-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Deposit Check</span>
+                </button>
+                <button onclick="openCardModal()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-slate-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-credit-card text-slate-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Cards</span>
+                </button>
+                <button onclick="showSpendingInsights()" class="quick-action-btn bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-green-400 smooth-transition flex flex-col items-center gap-3">
+                    <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-chart-pie text-green-600 text-2xl"></i>
+                    </div>
+                    <span class="font-bold text-slate-700">Insights</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-lg border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-300 font-semibold">30-Day Summary</p>
+                        <span class="text-green-500 font-semibold text-xs">Updated</span>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-900 dark:text-white" id="summaryNet">$0.00</div>
+                    <div class="text-xs text-slate-400 dark:text-slate-300 mb-3">Net balance change in last 30 days</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="rounded-xl bg-green-50 dark:bg-emerald-900/20 p-2">
+                            <div class="font-semibold text-green-700 dark:text-emerald-300" id="summaryCredit">+$0.00</div>
+                            <div class="text-slate-500 dark:text-slate-200">Total Income</div>
+                        </div>
+                        <div class="rounded-xl bg-red-50 dark:bg-red-900/20 p-2">
+                            <div class="font-semibold text-red-700 dark:text-rose-300" id="summaryDebit">-$0.00</div>
+                            <div class="text-slate-500 dark:text-slate-200">Total Spend</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl p-3 shadow-lg border border-white/20">
+                    <div class="flex items-center justify-between mb-1">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.18em] text-blue-100 font-semibold">Security Center</p>
+                            <h3 class="text-base font-bold mt-0.5">Account Safety</h3>
+                        </div>
+                        <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px] font-semibold">Protected</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-1 text-xs">
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">2FA</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" id="safetyTwoFactorStatus">Enabled</p>
+                        </div>
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">Trusted Devices</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" data-security-stat="trusted-devices">0 devices</p>
+                        </div>
+                        <div class="bg-white/10 p-2 rounded-lg border border-white/20">
+                            <p class="text-slate-100 text-[9px] uppercase">Recent Logins</p>
+                            <p class="font-semibold mt-0.5 text-[12px]" data-security-stat="login-history">0 logins</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-1">
+                        <button onclick="toggleTwoFactor();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Toggle 2FA</button>
+                        <button onclick="addCurrentDevice();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Add device</button>
+                        <button onclick="showLoginHistory();" class="text-[10px] border border-white/25 rounded-lg px-2 py-1 bg-white/10 text-white hover:bg-white/20">Login history</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 border border-white/20"><i class="fas fa-check text-green-300"></i> Biometric login ready</div>
+            <div class="mt-3 text-xs text-blue-100 font-semibold">
+                <div class="flex items-center gap-2"><i class="fas fa-mobile-alt"></i> <span id="safetyDevicesExternal">0 recognized devices</span></div>
+                <div class="flex items-center gap-2"><i class="fas fa-history"></i> <span id="safetyLoginExternal">0 recent logins</span></div>
+            </div>
+            <div class="mt-3 text-[11px] text-blue-100">Tip: Keep your password unique and never share security codes.</div>
+            </div>
+
+            <!-- Account Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group" onclick="selectAccount('checking')">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center group-hover:bg-blue-900 smooth-transition">
+                            <i class="fas fa-credit-card text-blue-900 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Primary</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">Checking Account</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="checkingBalance">$12,450.00</h4>
+                    <p class="text-sm text-slate-400 font-mono">•••• •••• 4521</p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Available</span>
+                        <span class="font-bold text-slate-900" id="checkingAvailable">$12,450.00</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group" onclick="selectAccount('savings')">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center group-hover:bg-green-600 smooth-transition">
+                            <i class="fas fa-piggy-bank text-green-600 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="secure-badge text-white text-xs px-3 py-1.5 rounded-full font-bold shadow-lg">5.25% APY</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">High-Yield Savings</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="savingsBalance">$34,834.52</h4>
+                    <p class="text-sm text-green-600 font-bold flex items-center gap-1">
+                        <i class="fas fa-chart-line"></i>
+                        +$892.34 interest YTD
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Projected Annual</span>
+                        <span class="font-bold text-green-600">+$1,829.81</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover-lift smooth-transition cursor-pointer group">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center group-hover:bg-purple-600 smooth-transition">
+                            <i class="fas fa-chart-pie text-purple-600 text-2xl group-hover:text-white smooth-transition"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Wealth</span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium mb-1">Investment Portfolio</p>
+                    <h4 class="text-3xl font-bold text-slate-900 mb-2 amount-display" id="investmentBalance">$28,392.18</h4>
+                    <p class="text-sm text-green-600 font-bold flex items-center gap-1">
+                        <i class="fas fa-arrow-up"></i>
+                        +8.2% YTD
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Risk Level</span>
+                        <span class="font-bold text-amber-600">Moderate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spending Insights (Hidden by default) -->
+            <div id="spendingInsights" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-900 text-lg">Spending Insights</h3>
+                    <button onclick="hideSpendingInsights()" class="text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="chart-container">
+                        <canvas id="spendingChart"></canvas>
+                    </div>
+                    <div class="space-y-4" id="spendingCategories">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connected External Banks -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-900 text-lg">Connected External Banks</h3>
+                    <button class="text-blue-900 text-sm font-bold hover:underline">Manage</button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div onclick="shortcutExternalTransfer('chase')" class="bank-logo selected p-4 rounded-xl border-2 border-blue-500 bg-blue-50 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center text-white font-bold text-xs">Chase</div>
+                        <span class="text-xs font-bold text-slate-700">Chase</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('bofa')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-red-700 rounded-lg flex items-center justify-center text-white font-bold text-xs">BofA</div>
+                        <span class="text-xs font-bold text-slate-700">Bank of America</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('wells')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">WF</div>
+                        <span class="text-xs font-bold text-slate-700">Wells Fargo</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('citi')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">Citi</div>
+                        <span class="text-xs font-bold text-slate-700">Citibank</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                    <div onclick="shortcutExternalTransfer('usbank')" class="bank-logo p-4 rounded-xl border-2 border-slate-200 hover:border-blue-300 flex flex-col items-center gap-2 cursor-pointer">
+                        <div class="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center text-white font-bold text-xs">U</div>
+                        <span class="text-xs font-bold text-slate-700">U.S. Bank</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Quick transfer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-900 text-lg">Recent Transactions</h3>
+                    <div class="flex gap-3">
+                        <button onclick="filterTransactions('all')" class="text-sm text-blue-900 font-bold hover:underline">All</button>
+                        <button onclick="filterTransactions('income')" class="text-sm text-slate-500 hover:text-blue-900 font-medium smooth-transition">Income</button>
+                        <button onclick="filterTransactions('expense')" class="text-sm text-slate-500 hover:text-blue-900 font-medium smooth-transition">Expenses</button>
+                    </div>
+                </div>
+                <div id="transactionsList" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto"></div>
+                <div class="p-4 border-t border-slate-200 text-center">
+                    <button onclick="loadMoreTransactions()" class="text-blue-900 font-bold text-sm hover:underline">Load More Transactions</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">F</div>
+                        <div>
+                            <div class="text-white font-bold text-lg">First National</div>
+                            <div class="text-xs text-slate-500">Trust Bank</div>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">Premier financial services with institutional-grade security and personalized wealth management solutions.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 smooth-transition text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-400 smooth-transition text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 smooth-transition text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Personal Banking</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white smooth-transition">Premium Checking</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">High-Yield Savings</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Credit Cards</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Mortgages</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Wealth Management</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white smooth-transition">Investment Advisory</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Retirement Planning</a></li>
+                        <li><a href="#" class="hover:text-white smooth-transition">Trust Services</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Contact</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone text-blue-500"></i>
+                            <span>1-800-FNTB-HELP</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-blue-500"></i>
+                            <span>private@fntb.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <div class="text-slate-600">
+                    © 2026 First National Trust Bank. Member FDIC. Equal Housing Lender.
+                </div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white smooth-transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white smooth-transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body></html>
